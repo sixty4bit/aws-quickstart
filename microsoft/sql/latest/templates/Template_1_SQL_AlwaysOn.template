@@ -248,6 +248,9 @@
             "us-west-1" : {
                 "64" : "ami-df43569a"
             },
+            "eu-central-1" : {
+                "64" : "ami-e03006fd"
+            },
             "eu-west-1" : {
                 "64" : "ami-d4228ea3"
             },

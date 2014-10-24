@@ -129,6 +129,9 @@
             "eu-west-1" : {
                 "64" : "ami-d4228ea3"
             },
+            "eu-central-1" : {
+                "64" : "ami-e03006fd"
+            },
             "ap-southeast-1" : {
                 "64" : "ami-ea6342b8"
             },

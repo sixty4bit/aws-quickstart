@@ -41,12 +41,10 @@
         "NATInstanceType" : {
             "Description" : "Amazon EC2 instance type for the NAT Instances",
             "Type"        : "String",
-            "Default"     : "m1.small",
+            "Default"     : "t2.small",
             "AllowedValues" : [
-                "m1.small",
-                "m1.medium",
-                "m1.large",
-                "m1.xlarge"
+                "t2.small",
+                "t2.medium"
             ]
         },
         "RDGWInstanceType" : {
@@ -137,6 +135,12 @@
             "m1.xlarge" : {
                 "Arch" : "64"
             },
+            "t2.small" : {
+                "Arch" : "64"
+            },
+            "t2.medium" : {
+                "Arch" : "64"
+            },
             "m2.xlarge" : {
                 "Arch" : "64"
             },
@@ -169,6 +173,9 @@
             "eu-west-1" : {
                 "64" : "ami-d4228ea3"
             },
+            "eu-central-1" : {
+                "64" : "ami-e03006fd"
+            },
             "ap-southeast-1" : {
                 "64" : "ami-ea6342b8"
             },
@@ -194,6 +201,9 @@
             },
             "eu-west-1" : {
                 "64" : "ami-e5e2d991"
+            },
+            "eu-central-1" : {
+                "64" : "ami-204c7a3d"
             },
             "ap-southeast-1" : {
                 "64" : "ami-02eb9350"
