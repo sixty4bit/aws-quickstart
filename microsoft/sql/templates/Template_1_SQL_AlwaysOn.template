@@ -356,9 +356,6 @@
                             },
                             "c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe"   : {
                                 "source" : "http://download.microsoft.com/download/8/0/8/80894270-D665-4E7A-8A2C-814373FC25C1/NDPFixit-KB3005628-X64.exe"
-                            },
-                            "c:\\cfn\\downloads\\Install-KB3005628.ps1"   : {
-                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sql/latest/scripts/Install-KB3005628.ps1"
                             }
                         },
                         "services" : {
@@ -383,10 +380,6 @@
                                         ]
                                     ]
                                 },
-                                "waitAfterCompletion" : "0"
-                            },
-                            "b-install-hotfix" : {
-                                "command" : "powershell.exe -command c:\\cfn\\downloads\\Install-KB3005628.ps1",
                                 "waitAfterCompletion" : "0"
                             }
                         }
@@ -707,8 +700,6 @@
                                         "",
                                         [
                                             "Install-WindowsFeature failover-clustering -IncludeManagementTools",
-                                            "\n",
-                                            "Install-WindowsFeature NET-Framework-Core",
                                             "\n"
                                         ]
                                     ]
@@ -757,7 +748,9 @@
                                     "Fn::Join" : [
                                         "",
                                         [
-                                            "powershell.exe -command \"dir \\\\",
+                                            "c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
+											"\n",
+											"powershell.exe -command \"dir \\\\",
                                             {
                                                 "Ref" : "ADServerNetBIOSName1"
                                             },
@@ -1624,8 +1617,6 @@
                                         "",
                                         [
                                             "Install-WindowsFeature failover-clustering -IncludeManagementTools",
-                                            "\n",
-                                            "Install-WindowsFeature NET-Framework-Core",
                                             "\n"
                                         ]
                                     ]
@@ -1671,6 +1662,8 @@
                                     "Fn::Join" : [
                                         "",
                                         [
+                                            "c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
+											"\n",											
                                             "powershell.exe -command \"dir \\\\",
                                             {
                                                 "Ref" : "ADServerNetBIOSName1"
