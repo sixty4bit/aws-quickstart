@@ -41,12 +41,10 @@
         "NATInstanceType" : {
             "Description" : "Amazon EC2 instance type for the NAT Instances",
             "Type"        : "String",
-            "Default"     : "m1.small",
+            "Default"     : "t2.small",
             "AllowedValues" : [
-                "m1.small",
-                "m1.medium",
-                "m1.large",
-                "m1.xlarge"
+                "t2.small",
+                "t2.medium"
             ]
         },
         "RDGWInstanceType" : {
