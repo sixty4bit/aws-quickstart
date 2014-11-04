@@ -748,9 +748,11 @@
                                     "Fn::Join" : [
                                         "",
                                         [
-                                            "c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
+											"c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
+											"/n",
+											"Install-WindowsFeature NET-Framework-Core",
 											"\n",
-											"powershell.exe -command \"dir \\\\",
+                                            "powershell.exe -command \"dir \\\\",
                                             {
                                                 "Ref" : "ADServerNetBIOSName1"
                                             },
@@ -1662,8 +1664,10 @@
                                     "Fn::Join" : [
                                         "",
                                         [
-                                            "c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
-											"\n",											
+											"c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
+											"/n",
+											"Install-WindowsFeature NET-Framework-Core",
+											"\n",
                                             "powershell.exe -command \"dir \\\\",
                                             {
                                                 "Ref" : "ADServerNetBIOSName1"
