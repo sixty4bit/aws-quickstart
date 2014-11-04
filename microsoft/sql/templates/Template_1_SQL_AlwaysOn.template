@@ -749,7 +749,7 @@
                                         "",
                                         [
 											"c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
-											"/n",
+											"\n",
 											"Install-WindowsFeature NET-Framework-Core",
 											"\n",
                                             "powershell.exe -command \"dir \\\\",
@@ -1665,7 +1665,7 @@
                                         "",
                                         [
 											"c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
-											"/n",
+											"\n",
 											"Install-WindowsFeature NET-Framework-Core",
 											"\n",
                                             "powershell.exe -command \"dir \\\\",
