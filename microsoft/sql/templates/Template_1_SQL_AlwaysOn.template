@@ -750,7 +750,7 @@
                                         [
 											"c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
 											"\n",
-											"Install-WindowsFeature NET-Framework-Core",
+											"powershell.exe -command Install-WindowsFeature NET-Framework-Core",
 											"\n",
                                             "powershell.exe -command \"dir \\\\",
                                             {
@@ -1345,17 +1345,6 @@
                                     ]
                                 },
                                 "waitAfterCompletion" : "0"
-                            },
-                            "b-install-hotfix" : {
-                                "command" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe"
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion" : "0"
                             }
                         }
                     },
@@ -1666,7 +1655,7 @@
                                         [
 											"c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
 											"\n",
-											"Install-WindowsFeature NET-Framework-Core",
+											"powershell.exe -command Install-WindowsFeature NET-Framework-Core",
 											"\n",
                                             "powershell.exe -command \"dir \\\\",
                                             {
