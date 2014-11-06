@@ -68,7 +68,7 @@ Configuration ServerBase {
     Node $AllNodes.Where{$_.AvailabilityZone -eq 'AZ1'}.NodeName {
         xDnsServerAddress DnsServerAddress { 
             Address        = $ADServer1PrivateIp, $ADServer2PrivateIp
-            InterfaceAlias = 'Ethernet 3' 
+            InterfaceAlias = 'Ethernet' 
             AddressFamily  = 'IPv4' 
         }                         
     }
@@ -76,14 +76,14 @@ Configuration ServerBase {
     Node $AllNodes.Where{$_.AvailabilityZone -eq 'AZ2'}.NodeName {
         xDnsServerAddress DnsServerAddress { 
             Address        = $ADServer2PrivateIp, $ADServer1PrivateIp
-            InterfaceAlias = 'Ethernet 3' 
+            InterfaceAlias = 'Ethernet' 
             AddressFamily  = 'IPv4' 
         }                         
     }
 
     Node DC1 {
         cIPAddress DCIPAddress {
-            InterfaceAlias = 'Ethernet 3'
+            InterfaceAlias = 'Ethernet'
             IPAddress = $ADServer1PrivateIp
             DefaultGateway = (Get-AWSDefaultGateway -IPAddress $ADServer1PrivateIp)
             SubnetMask = (Get-AWSSubnetMask -SubnetCIDR $PrivateSubnet1CIDR)         
@@ -91,7 +91,7 @@ Configuration ServerBase {
 
         xDnsServerAddress DnsServerAddress { 
             Address        = $ADServer1PrivateIp
-            InterfaceAlias = 'Ethernet 3' 
+            InterfaceAlias = 'Ethernet' 
             AddressFamily  = 'IPv4' 
             DependsOn = '[cIPAddress]DCIPAddress'
         } 
@@ -158,7 +158,7 @@ Configuration ServerBase {
 
     Node DC2 {
         cIPAddress DC2IPAddress {
-            InterfaceAlias = 'Ethernet 3'
+            InterfaceAlias = 'Ethernet'
             IPAddress = $ADServer2PrivateIp
             DefaultGateway = (Get-AWSDefaultGateway -IPAddress $ADServer2PrivateIp)
             SubnetMask = (Get-AWSSubnetMask -SubnetCIDR $PrivateSubnet2CIDR)         
@@ -166,7 +166,7 @@ Configuration ServerBase {
 
         xDnsServerAddress DnsServerAddress { 
             Address        = $ADServer1PrivateIp
-            InterfaceAlias = 'Ethernet 3' 
+            InterfaceAlias = 'Ethernet' 
             AddressFamily  = 'IPv4' 
             DependsOn = '[cIPAddress]DC2IPAddress'
         }

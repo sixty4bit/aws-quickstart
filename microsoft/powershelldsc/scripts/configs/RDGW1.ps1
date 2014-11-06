@@ -34,7 +34,7 @@ Configuration RDGW1Config {
     Node RDGW1 {
         xDnsServerAddress DnsServerAddress { 
             Address        = $ADServer1PrivateIp, $ADServer2PrivateIp
-            InterfaceAlias = 'Ethernet 3' 
+            InterfaceAlias = 'Ethernet' 
             AddressFamily  = 'IPv4' 
         }
 

@@ -34,7 +34,7 @@ Configuration WEB2Config {
     Node WEB2 {
         xDnsServerAddress DnsServerAddress { 
             Address        = $ADServer2PrivateIp, $ADServer1PrivateIp
-            InterfaceAlias = 'Ethernet 3' 
+            InterfaceAlias = 'Ethernet' 
             AddressFamily  = 'IPv4' 
         }
 

@@ -34,7 +34,7 @@ Configuration WEB1Config {
     Node WEB1 {
         xDnsServerAddress DnsServerAddress { 
             Address        = $ADServer1PrivateIp, $ADServer2PrivateIp
-            InterfaceAlias = 'Ethernet 3' 
+            InterfaceAlias = 'Ethernet' 
             AddressFamily  = 'IPv4' 
         }
 

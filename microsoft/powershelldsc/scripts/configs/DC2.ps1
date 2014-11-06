@@ -37,7 +37,7 @@ Configuration DC2Config {
 
     Node DC2 {
         cIPAddress DC2IPAddress {
-            InterfaceAlias = 'Ethernet 3'
+            InterfaceAlias = 'Ethernet'
             IPAddress = $ADServer2PrivateIp
             DefaultGateway = (Get-AWSDefaultGateway -IPAddress $ADServer2PrivateIp)
             SubnetMask = (Get-AWSSubnetMask -SubnetCIDR $PrivateSubnet2CIDR)         
@@ -45,7 +45,7 @@ Configuration DC2Config {
 
         xDnsServerAddress DnsServerAddress { 
             Address        = $ADServer1PrivateIp
-            InterfaceAlias = 'Ethernet 3' 
+            InterfaceAlias = 'Ethernet' 
             AddressFamily  = 'IPv4' 
             DependsOn = '[cIPAddress]DC2IPAddress'
         }
