@@ -353,9 +353,6 @@
                                         ]
                                     ]
                                 }
-                            },
-                            "c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe"   : {
-                                "source" : "http://download.microsoft.com/download/8/0/8/80894270-D665-4E7A-8A2C-814373FC25C1/NDPFixit-KB3005628-X64.exe"
                             }
                         },
                         "services" : {
@@ -748,8 +745,6 @@
                                     "Fn::Join" : [
                                         "",
                                         [
-											"c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
-											"\n",
 											"powershell.exe -command Install-WindowsFeature NET-Framework-Core",
 											"\n",
                                             "powershell.exe -command \"dir \\\\",
@@ -1317,9 +1312,6 @@
                             },
                             "c:\\cfn\\scripts\\MaxDOP.sql"    : {
                                 "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/MaxDOP.sql"
-                            },
-                            "c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe"   : {
-                                "source" : "http://download.microsoft.com/download/8/0/8/80894270-D665-4E7A-8A2C-814373FC25C1/NDPFixit-KB3005628-X64.exe"
                             }
                         },
                         "services" : {
@@ -1653,8 +1645,6 @@
                                     "Fn::Join" : [
                                         "",
                                         [
-											"c:\\cfn\\downloads\\NDPFixit-KB3005628-X64.exe",
-											"\n",
 											"powershell.exe -command Install-WindowsFeature NET-Framework-Core",
 											"\n",
                                             "powershell.exe -command \"dir \\\\",
