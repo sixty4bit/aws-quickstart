@@ -832,6 +832,9 @@
                             },
                             "c:\\cfn\\scripts\\users.csv"              : {
                                 "source" : "https://s3.amazonaws.com/CFN_WS2012_Scripts/AD/users.csv"
+                            },
+                            "c:\\cfn\\scripts\\ConvertTo-EnterpriseAdmin.ps1"              : {
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/ConvertTo-EnterpriseAdmin.ps1"
                             }
                         },
                         "services" : {
@@ -982,12 +985,10 @@
                                     "Fn::Join" : [
                                         "",
                                         [
-                                            "powershell.exe -Command \"",
-                                            "Add-ADGroupMember 'Domain Admins' -Members ",
+                                            "powershell.exe -ExecutionPolicy RemoteSigned -Command c:\\cfn\\scripts\\ConvertTo-EnterpriseAdmin.ps1 -Members ",
                                             {
                                                 "Ref" : "DomainAdminUser"
-                                            },
-                                            "\""
+                                            }
                                         ]
                                     ]
                                 },
