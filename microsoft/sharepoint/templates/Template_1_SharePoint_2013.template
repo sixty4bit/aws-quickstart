@@ -250,8 +250,8 @@
             "ap-southeast-2" : {
                 "64" : "ami-efa8c6d5"
             }
-        },
-    }
+        }
+    },
     "Conditions"               : {
         "3SPServersPerAZ" : {
             "Fn::Equals" : [
