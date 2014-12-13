@@ -1,7 +1,7 @@
 aws-quickstart
 ==============
 
-Microsoft Exchange Server
+Microsoft Exchange Server 2013
 
 
  
