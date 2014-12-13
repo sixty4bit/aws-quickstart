@@ -605,7 +605,7 @@
                                             {
                                                 "Ref" : "ADServerNetBIOSName1"
                                             },
-                                            "\\exchinstall\\Exchange2013-x64-cu6.exe"
+                                            "\\exchinstall\\Exchange2013-x64-cu7.exe"
                                         ]
                                     ]
                                 },
