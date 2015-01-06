@@ -946,11 +946,7 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            },
-											" -VpcId ",
-											{
-												"Ref" : "VPC"
-											}
+                                            }
                                         ]
                                     ]
                                 },
@@ -1556,21 +1552,7 @@
                                             "' -PullServer1PrivateIp ",
                                             {
                                                 "Ref" : "PullServer1PrivateIp"
-                                            },
-											" -ELBFqdn ",
-											{
-												"Fn::Join" : [
-													"",
-													[
-														{
-															"Fn::GetAtt" : [
-																"DSCLoadBalancer",
-																"DNSName"
-															]
-														}
-													]
-												]
-											}
+                                            }
                                         ]
                                     ]
                                 },
@@ -1585,21 +1567,7 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            },
-											" -ELBFqdn ",
-											{
-												"Fn::Join" : [
-													"",
-													[
-														{
-															"Fn::GetAtt" : [
-																"DSCLoadBalancer",
-																"DNSName"
-															]
-														}
-													]
-												]
-											}
+                                            }
                                         ]
                                     ]
                                 },
@@ -1881,21 +1849,7 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            },
-											" -ELBFqdn ",
-											{
-												"Fn::Join" : [
-													"",
-													[
-														{
-															"Fn::GetAtt" : [
-																"DSCLoadBalancer",
-																"DNSName"
-															]
-														}
-													]
-												]
-											}
+                                            }
                                         ]
                                     ]
                                 },
@@ -2177,21 +2131,7 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            },
-											" -ELBFqdn ",
-											{
-												"Fn::Join" : [
-													"",
-													[
-														{
-															"Fn::GetAtt" : [
-																"DSCLoadBalancer",
-																"DNSName"
-															]
-														}
-													]
-												]
-											}
+                                            }
                                         ]
                                     ]
                                 },
@@ -2473,21 +2413,7 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            },
-											" -ELBFqdn ",
-											{
-												"Fn::Join" : [
-													"",
-													[
-														{
-															"Fn::GetAtt" : [
-																"DSCLoadBalancer",
-																"DNSName"
-															]
-														}
-													]
-												]
-											}
+                                            }
                                         ]
                                     ]
                                 },
@@ -2769,21 +2695,7 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            },
-											" -ELBFqdn ",
-											{
-												"Fn::Join" : [
-													"",
-													[
-														{
-															"Fn::GetAtt" : [
-																"DSCLoadBalancer",
-																"DNSName"
-															]
-														}
-													]
-												]
-											}
+                                            }
                                         ]
                                     ]
                                 },
@@ -3065,21 +2977,7 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            },
-											" -ELBFqdn ",
-											{
-												"Fn::Join" : [
-													"",
-													[
-														{
-															"Fn::GetAtt" : [
-																"DSCLoadBalancer",
-																"DNSName"
-															]
-														}
-													]
-												]
-											}
+                                            }
                                         ]
                                     ]
                                 },
