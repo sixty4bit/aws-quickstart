@@ -4,20 +4,20 @@ param(
     $Password,
 
     [string]
-    $Region
+    $Region,
+
+    [string]
+    $ELBFqdn
 )
 
 try {
     Write-Verbose "Creating c:\inetpub\wwwroot"
     New-Item -ItemType Directory -Path c:\inetpub\wwwroot -ErrorAction Stop
 
-    Write-Verbose "Getting ELB Name"
-    $DomainDNSName = (Get-ELBLoadBalancer -Region $Region -ErrorAction Stop)[0].DNSName
-
     Write-Verbose "Creating Certificate"
 
     $name = new-object -com "X509Enrollment.CX500DistinguishedName.1"
-    $name.Encode("CN=$DomainDNSName", 0)
+    $name.Encode("CN=$ELBFqdn", 0)
 
     $key = new-object -com "X509Enrollment.CX509PrivateKey.1"
     $key.ProviderName = "Microsoft RSA SChannel Cryptographic Provider"
@@ -51,7 +51,7 @@ try {
 
     Write-Verbose "Exporting Certificates"
 
-    $certificate = Get-ChildItem cert:\localmachine\my -ErrorAction Stop | Where-Object { $_.Subject -eq "CN=$DomainDNSName" }
+    $certificate = Get-ChildItem cert:\localmachine\my -ErrorAction Stop | Where-Object { $_.Subject -eq "CN=$ELBFqdn" }
 
     $mypwd = ConvertTo-SecureString -String $Password -Force –AsPlainText -ErrorAction Stop
     Export-PfxCertificate $certificate.PSPath -FilePath c:\inetpub\wwwroot\dsc.pfx -Password $mypwd -ErrorAction Stop

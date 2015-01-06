@@ -1,13 +1,12 @@
 ﻿[CmdletBinding()]
 param(
     [string]
-    $Region
+    $Region,
+    [string]
+    $ELBName
 )
 
 try {
-    Write-Verbose "Getting ELB Name"
-    $ELBName = (Get-ELBLoadBalancer -Region $Region -ErrorAction Stop)[0].LoadBalancerName
-
     Write-Verbose "Getting Instance Id from instance metadata"
     $InstanceId = (new-object System.Net.WebClient).DownloadString(
         'http://169.254.169.254/latest/meta-data/instance-id'
