@@ -1314,7 +1314,11 @@
                                             "powershell.exe -Command c:\\cfn\\scripts\\Register-PullServer.ps1 -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -ELBName ",
+											{
+												"Ref" : "DSCLoadBalancer"
+											}
                                         ]
                                     ]
                                 },
