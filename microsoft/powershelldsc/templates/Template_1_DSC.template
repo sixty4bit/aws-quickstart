@@ -857,7 +857,11 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -VpcId "
+											{
+												"Ref" : "VPC"
+											}
                                         ]
                                     ]
                                 },
@@ -946,7 +950,11 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -VpcId "
+											{
+												"Ref" : "VPC"
+											}
                                         ]
                                     ]
                                 },
@@ -1310,7 +1318,11 @@
                                             "powershell.exe -Command c:\\cfn\\scripts\\Register-PullServer.ps1 -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -VpcId "
+											{
+												"Ref" : "VPC"
+											}
                                         ]
                                     ]
                                 },
@@ -1567,7 +1579,11 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -VpcId "
+											{
+												"Ref" : "VPC"
+											}
                                         ]
                                     ]
                                 },
@@ -1849,7 +1865,11 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -VpcId "
+											{
+												"Ref" : "VPC"
+											}
                                         ]
                                     ]
                                 },
@@ -2131,7 +2151,11 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -VpcId "
+											{
+												"Ref" : "VPC"
+											}
                                         ]
                                     ]
                                 },
@@ -2413,7 +2437,11 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -VpcId "
+											{
+												"Ref" : "VPC"
+											}
                                         ]
                                     ]
                                 },
@@ -2695,7 +2723,11 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -VpcId "
+											{
+												"Ref" : "VPC"
+											}
                                         ]
                                     ]
                                 },
@@ -2977,7 +3009,11 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -VpcId "
+											{
+												"Ref" : "VPC"
+											}
                                         ]
                                     ]
                                 },

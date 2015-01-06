@@ -8,11 +8,12 @@
     [string]$PrivateSubnet2CIDR,
     [string]$DMZ1CIDR,
     [string]$DMZ2CIDR,
-    [string]$Region
+    [string]$Region,
+    [string]$VpcId
     )
 
 #Get the FQDN of the Load Balancer
-$PullServer = (Get-ELBLoadBalancer -Region $Region)[0].DNSName
+$PullServer = Get-ELBLoadBalancer -Region $Region | Where-Object {$_.VpcId -eq $VpcId} | select -ExpandProperty DnsName
 
 #Helper functions
 Import-Module $psscriptroot\Get-EC2InstanceGuid.psm1

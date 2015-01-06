@@ -1,12 +1,15 @@
 ﻿[CmdletBinding()]
 param(
     [string]
-    $Region
+    $Region,
+
+    [string]
+    $VpcId
 )
 
 try {
     Write-Verbose "Getting ELB Name"
-    $ELBName = (Get-ELBLoadBalancer -Region $Region -ErrorAction Stop)[0].LoadBalancerName
+    $ELBName = Get-ELBLoadBalancer -Region $Region | Where-Object {$_.VpcId -eq $VpcId} | select -ExpandProperty LoadBalancerName
 
     Write-Verbose "Getting Instance Id from instance metadata"
     $InstanceId = (new-object System.Net.WebClient).DownloadString(

@@ -4,7 +4,10 @@ param(
     $Password,
 
     [string]
-    $Region
+    $Region,
+
+    [string]
+    $VpcId
 )
 
 try {
@@ -12,7 +15,7 @@ try {
     New-Item -ItemType Directory -Path c:\inetpub\wwwroot -ErrorAction Stop
 
     Write-Verbose "Getting ELB Name"
-    $DomainDNSName = (Get-ELBLoadBalancer -Region $Region -ErrorAction Stop)[0].DNSName
+    $DomainDNSName = Get-ELBLoadBalancer -Region $Region | Where-Object {$_.VpcId -eq $VpcId} | select -ExpandProperty DnsName
 
     Write-Verbose "Creating Certificate"
 
