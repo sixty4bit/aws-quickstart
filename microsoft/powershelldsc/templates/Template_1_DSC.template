@@ -858,7 +858,7 @@
                                             {
                                                 "Ref" : "AWS::Region"
                                             },
-											" -VpcId "
+											" -VpcId ",
 											{
 												"Ref" : "VPC"
 											}
@@ -951,7 +951,7 @@
                                             {
                                                 "Ref" : "AWS::Region"
                                             },
-											" -VpcId "
+											" -VpcId ",
 											{
 												"Ref" : "VPC"
 											}
@@ -1319,7 +1319,7 @@
                                             {
                                                 "Ref" : "AWS::Region"
                                             },
-											" -VpcId "
+											" -VpcId ",
 											{
 												"Ref" : "VPC"
 											}
@@ -1580,7 +1580,7 @@
                                             {
                                                 "Ref" : "AWS::Region"
                                             },
-											" -VpcId "
+											" -VpcId ",
 											{
 												"Ref" : "VPC"
 											}
@@ -1866,7 +1866,7 @@
                                             {
                                                 "Ref" : "AWS::Region"
                                             },
-											" -VpcId "
+											" -VpcId ",
 											{
 												"Ref" : "VPC"
 											}
@@ -2152,7 +2152,7 @@
                                             {
                                                 "Ref" : "AWS::Region"
                                             },
-											" -VpcId "
+											" -VpcId ",
 											{
 												"Ref" : "VPC"
 											}
@@ -2438,7 +2438,7 @@
                                             {
                                                 "Ref" : "AWS::Region"
                                             },
-											" -VpcId "
+											" -VpcId ",
 											{
 												"Ref" : "VPC"
 											}
@@ -2724,7 +2724,7 @@
                                             {
                                                 "Ref" : "AWS::Region"
                                             },
-											" -VpcId "
+											" -VpcId ",
 											{
 												"Ref" : "VPC"
 											}
@@ -3010,7 +3010,7 @@
                                             {
                                                 "Ref" : "AWS::Region"
                                             },
-											" -VpcId "
+											" -VpcId ",
 											{
 												"Ref" : "VPC"
 											}
