@@ -1296,7 +1296,11 @@
                                             " -Region ",
                                             {
                                                 "Ref" : "AWS::Region"
-                                            }
+                                            },
+											" -VpcId ",
+											{
+												"Ref" : "VPC"
+											}
                                         ]
                                     ]
                                 },
