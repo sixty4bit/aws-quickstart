@@ -4,7 +4,7 @@
     [string]$VpcId
     )
 
-$guid = (Get-EC2Instance -Filter @{name='tag:Name';values=$Instance} -Region $Region)[0].Instances.tags.where{$_.key -eq 'guid'}.value
+$guid = (Get-EC2Instance -Filter @{name='vpc-id';value=$vpcId},@{name='tag:Name';values=$Instance} -Region $Region)[0].Instances.tags.where{$_.key -eq 'guid'}.value
 $PullServer = Get-ELBLoadBalancer -Region $Region | Where-Object {$_.VpcId -eq $VpcId} | select -ExpandProperty DnsName
 
 Configuration SetPullMode {
