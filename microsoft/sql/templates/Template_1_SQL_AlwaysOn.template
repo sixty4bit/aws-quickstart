@@ -4,7 +4,7 @@
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pairs allow you to securely connect to your instance after it launches",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::KeyPair::KeyName"
         },
         "WSFCNode1InstanceType" : {
             "Description" : "Amazon EC2 instance type for the 1st WSFC Node",
@@ -156,15 +156,15 @@
         },
         "VPC"                       : {
             "Description" : "ID of the VPC (e.g., vpc-0343606e)",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::VPC::Id"
         },
         "PrivateSubnet1Id"          : {
             "Description" : "ID of the subnet you want to provision the first WSFC node into (e.g., subnet-a0246dcd)",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::Subnet::Id"
         },
         "PrivateSubnet2Id"          : {
             "Description" : "ID of the subnet you want to provision the second WSFC node into (e.g., subnet-e3246d8e)",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::Subnet::Id"
         },
         "PrivSub1CIDR"              : {
             "Description" : "CIDR Block for Private Subnet located in AZ1",
