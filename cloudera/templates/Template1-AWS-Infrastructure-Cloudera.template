@@ -30,13 +30,17 @@
             "ConstraintDescription": "must be a valid CIDR range of the form x.x.x.x/x."
         },
         "KeyName": {
-            "Type": "String",
-            "Default": "REPLACE-ME",
+            "Type": "AWS::EC2::KeyPair::KeyName",
             "Description": "Name of an existing EC2 KeyPair. ClusterLauncher instance will launch with this KeyPair.",
             "MinLength": "1",
             "MaxLength": "64",
             "AllowedPattern": "[-_ a-zA-Z0-9]*",
             "ConstraintDescription": "Can contain only alphanumeric characters, spaces, dashes and underscores."
+        },
+        "BuildBucket": {
+            "Description": "S3 bucket containing templates and scripts [Don't change].",
+            "Type": "String",
+            "Default": "quickstart-reference/cloudera/hadoop/latest"
         },
         "NATInstanceType": {
             "Description": "Amazon EC2 instance type for the NAT Instances.",
@@ -630,7 +634,6 @@
                                 {
                                     "Effect": "Allow",
                                     "Action": [
-                                        "*",
                                         "s3:*",
                                         "ec2:Describe*",
                                         "ec2:AttachNetworkInterface",
@@ -642,7 +645,8 @@
                                         "ec2:StartInstances",
                                         "ec2:CreateSecurityGroup",
                                         "ec2:CreatePlacementGroup",
-                                        "ec2:CreateSnapshot"
+                                        "ec2:CreateSnapshot",
+                                        "*"
                                     ],
                                     "Resource": "*"
                                 },
@@ -821,11 +825,11 @@
                                 "\n",
                                 "mkdir -p /home/ec2-user/cloudera/",
                                 "\n",
-                                "wget https://s3.amazonaws.com/quickstart-reference/cloudera/hadoop/latest/scripts/download.sh --output-document=/home/ec2-user/cloudera/download.sh ",
+                                "wget https://s3.amazonaws.com/", {"Ref": "BuildBucket"}, "/scripts/download.sh --output-document=/home/ec2-user/cloudera/download.sh ",
                                 "\n",
-                                "wget https://s3.amazonaws.com/quickstart-reference/cloudera/hadoop/latest/scripts/cfn-replace.sh --output-document=/home/ec2-user/cloudera/cfn-replace.sh ",
+                                "wget https://s3.amazonaws.com/", {"Ref": "BuildBucket"},"/scripts/cfn-replace.sh --output-document=/home/ec2-user/cloudera/cfn-replace.sh ",
                                 "\n",
-                                "wget https://s3.amazonaws.com/quickstart-reference/cloudera/hadoop/latest/scripts/cleanup.sh --output-document=/home/ec2-user/cloudera/cleanup.sh ",
+                                "wget https://s3.amazonaws.com/", {"Ref": "BuildBucket"},"/scripts/cleanup.sh --output-document=/home/ec2-user/cloudera/cleanup.sh ",
                                 "\n",
                                 "/bin/sh /home/ec2-user/cloudera/cfn-replace.sh ",
                                 "PUBLICSUBNETID-CFN-REPLACE",
@@ -872,14 +876,14 @@
                                 "=",
                                 "m3.2xlarge",
                                 " /home/ec2-user/cloudera/download.sh \n",
-                                "/bin/sh /home/ec2-user/cloudera/download.sh \n",
+                                "/bin/sh /home/ec2-user/cloudera/download.sh"," -b ", {"Ref": "BuildBucket"}, "\n",
                                 "/bin/sh /home/ec2-user/cloudera/cleanup.sh \n",
 
 				        "curl -X PUT -H 'Content-Type:' --data-binary '{\"Status\" : \"SUCCESS\",",
                                                          "\"Reason\" : \"The AWS-Cloudera Cluster Launcher is ready.\",",
                                                          "\"UniqueId\" : \"ClusterLauncher Complete\",",
                                                          "\"Data\" : \"Done\"}' ",
-        "\"", {"Ref" : "WebServerWaitHandle"},"\"\n" 
+        "\"", {"Ref" : "WebServerWaitHandle"},"\"\n"
                             ]
                         ]
                     }

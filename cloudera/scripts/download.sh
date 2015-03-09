@@ -1,5 +1,32 @@
 #!/bin/bash
 
+usage() {
+		cat <<EOF
+		Usage: $0 [options]
+				-h print usage
+				-b S3 BuildBucket that contains scripts/templates/media dir
+EOF
+		exit 1
+}
+
+# ------------------------------------------------------------------
+#          Read all inputs
+# ------------------------------------------------------------------
+
+
+
+while getopts ":h:b:" o; do
+		case "${o}" in
+				h) usage && exit 0
+						;;
+				b) BUILDBUCKET=${OPTARG}
+								;;
+				*)
+						usage
+						;;
+		esac
+done
+
 # ------------------------------------------------------------------
 #          Download all the scripts needed for installing Cloudera
 # ------------------------------------------------------------------
@@ -9,25 +36,29 @@ yum -y install ntp
 service ntpd start
 ntpdate  -u 0.amazon.pool.ntp.org
 
-LAUNCHPAD_DIR=cloudera-director-1.0.1
+#VERSION=1.0.2
+VERSION=1.1.0
 
-mkdir -p /home/ec2-user/cloudera/cloudera-director-1.0.1
-mkdir -p /home/ec2-user/cloudera/cloudera-director-server-1.0.1
-mkdir -p /home/ec2-user/cloudera/aws 
+BUILDBUCKET=$(echo ${BUILDBUCKET} | sed 's/"//g')
 
-LAUNCHPAD_CLI_ZIP=cloudera-director-1.0.1.tar.gz
-LAUNCHPAD_SERVER_ZIP=cloudera-director-server-1.0.1.tar.gz
+mkdir -p /home/ec2-user/cloudera/cloudera-director-client-${VERSION}
+mkdir -p /home/ec2-user/cloudera/cloudera-director-server-${VERSION}
+mkdir -p /home/ec2-user/cloudera/aws
+
+LAUNCHPAD_CLI_ZIP=cloudera-director-client-latest.tar.gz
+LAUNCHPAD_SERVER_ZIP=cloudera-director-server-latest.tar.gz
+
 
 for LAUNCHPAD_ZIP in ${LAUNCHPAD_CLI_ZIP} ${LAUNCHPAD_SERVER_ZIP}
 do
-	wget https://s3.amazonaws.com/quickstart-reference/cloudera/hadoop/latest/media/${LAUNCHPAD_ZIP} --output-document=/home/ec2-user/cloudera/${LAUNCHPAD_ZIP}
+	wget https://s3.amazonaws.com/${BUILDBUCKET}/media/${LAUNCHPAD_ZIP} --output-document=/home/ec2-user/cloudera/${LAUNCHPAD_ZIP}
 done
 
 wget https://s3.amazonaws.com/aws-cli/awscli-bundle.zip --output-document=/home/ec2-user/cloudera/aws/awscli-bundle.zip
-wget https://s3.amazonaws.com/quickstart-reference/cloudera/hadoop/latest/media/jq --output-document=/home/ec2-user/cloudera/aws/jq
+wget https://s3.amazonaws.com/${BUILDBUCKET}/media/jq --output-document=/home/ec2-user/cloudera/aws/jq
 
-tar xvf /home/ec2-user/cloudera/${LAUNCHPAD_CLI_ZIP} -C /home/ec2-user/cloudera/cloudera-director-1.0.1  --strip-components=1
-tar xvf /home/ec2-user/cloudera/${LAUNCHPAD_SERVER_ZIP} -C /home/ec2-user/cloudera/cloudera-director-server-1.0.1 --strip-components=1
+tar xvf /home/ec2-user/cloudera/${LAUNCHPAD_CLI_ZIP} -C /home/ec2-user/cloudera/cloudera-director-client-${VERSION}  --strip-components=1
+tar xvf /home/ec2-user/cloudera/${LAUNCHPAD_SERVER_ZIP} -C /home/ec2-user/cloudera/cloudera-director-server-${VERSION} --strip-components=1
 
 cd /home/ec2-user/cloudera/aws
 unzip awscli-bundle.zip
@@ -40,15 +71,15 @@ export JQ_COMMAND=/home/ec2-user/cloudera/aws/jq
 AWS_SIMPLE_CONF=$(find /home/ec2-user/cloudera/ -name "aws.simple.conf")
 AWS_REFERENCE_CONF=$(find /home/ec2-user/cloudera/ -name "aws.reference.conf")
 
-wget https://s3.amazonaws.com/quickstart-reference/cloudera/hadoop/latest/media/aws.simple.conf --output-document=${AWS_SIMPLE_CONF}
-wget https://s3.amazonaws.com/quickstart-reference/cloudera/hadoop/latest/media/aws.reference.conf --output-document=${AWS_REFERENCE_CONF}
+wget https://s3.amazonaws.com/${BUILDBUCKET}/media/aws.simple.conf.${VERSION} --output-document=${AWS_SIMPLE_CONF}
+wget https://s3.amazonaws.com/${BUILDBUCKET}/media/aws.reference.conf.${VERSION} --output-document=${AWS_REFERENCE_CONF}
 
-cd /home/ec2-user/cloudera/cloudera-director-1.0.1
+cd /home/ec2-user/cloudera/cloudera-director-client-${VERSION}
 
 export AWS_INSTANCE_IAM_ROLE=$(curl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/)
 export AWS_ACCESSKEYID=$(curl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/${AWS_INSTANCE_IAM_ROLE} | ${JQ_COMMAND} '.AccessKeyId'  | sed 's/^"\(.*\)"$/\1/')
 export AWS_SECRETACCESSKEY=$(curl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/${AWS_INSTANCE_IAM_ROLE} | ${JQ_COMMAND} '.SecretAccessKey' | sed 's/^"\(.*\)"$/\1/')
-export AWS_DEFAULT_REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | ${JQ_COMMAND} '.region'  | sed 's/^"\(.*\)"$/\1/') 
+export AWS_DEFAULT_REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | ${JQ_COMMAND} '.region'  | sed 's/^"\(.*\)"$/\1/')
 export AWS_INSTANCEID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | ${JQ_COMMAND} '.instanceId' | sed 's/^"\(.*\)"$/\1/' )
 
 # Not a clean way. But querying 6.4 is painful without hardcoding owner ID. Fix it next time
@@ -190,16 +221,16 @@ do
 	sed -i "s/privatesubnetId-REPLACE-ME/${AWS_PRIVATESUBNETID}/g" ${AWS_CONF_FILE}
 	sed -i "s/publicsubnetId-REPLACE-ME/${AWS_PUBLICSUBNETID}/g" ${AWS_CONF_FILE}
 	sed -i "s/subnetId-REPLACE-ME/${AWS_SUBNETID}/g" ${AWS_CONF_FILE}
-	sed -i "s/securityGroupsIds-REPLACE-ME/${AWS_SECURITYGROUPIDS}/g" ${AWS_CONF_FILE} 
-	sed -i "s/keyName-REPLACE-ME/${AWS_KEYNAME}/g" ${AWS_CONF_FILE} 
+	sed -i "s/securityGroupsIds-REPLACE-ME/${AWS_SECURITYGROUPIDS}/g" ${AWS_CONF_FILE}
+	sed -i "s/keyName-REPLACE-ME/${AWS_KEYNAME}/g" ${AWS_CONF_FILE}
 	sed -i "s/type-REPLACE-ME/${AWS_CDH_INSTANCE}/g" ${AWS_CONF_FILE}
 	sed -i "s/count-REPLACE-ME/${AWS_CDH_COUNT}/g" ${AWS_CONF_FILE}
 	sed -i "s/image-REPLACE-ME/${AWS_AMI}/g" ${AWS_CONF_FILE}
 	sed -i "s/hvm-ami-REPLACE-ME/${AWS_HVM_AMI}/g" ${AWS_CONF_FILE}
 	sed -i "s/pvm-ami-REPLACE-ME/${AWS_PVM_AMI}/g" ${AWS_CONF_FILE}
-	sed -i "s/placementGroup-REPLACE-ME/${AWS_PLACEMENT_GROUP_NAME}/g" ${AWS_CONF_FILE}	
+	sed -i "s/placementGroup-REPLACE-ME/${AWS_PLACEMENT_GROUP_NAME}/g" ${AWS_CONF_FILE}
 	sed -i "s/instanceNamePrefix.*/instanceNamePrefix: cloudera-director-${AWS_INSTANCEID}/g" ${AWS_CONF_FILE}
-	
+
 done
 
 # change ownership
