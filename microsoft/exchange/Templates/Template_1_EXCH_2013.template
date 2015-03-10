@@ -81,32 +81,32 @@
         "ADServer1PrivateIp"   : {
             "Description" : "Fixed private IP for the first existing Active Directory server located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.2.10"
+            "Default"     : "10.0.0.10"
         },
         "ADServer2PrivateIp"   : {
             "Description" : "Fixed private IP for the second existing Active Directory serverr located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.3.10"
+            "Default"     : "10.0.64.10"
         },
         "EXCH1PrivateIp"       : {
             "Description" : "Primary private IP for the first Exchange Server",
             "Type"        : "String",
-            "Default"     : "10.0.2.150"
+            "Default"     : "10.0.0.150"
         },
         "EXCH1PrivateIp2"      : {
             "Description" : "Secondary private IP for the first Exchange Server",
             "Type"        : "String",
-            "Default"     : "10.0.2.151"
+            "Default"     : "10.0.0.151"
         },
         "EXCH2PrivateIp"       : {
             "Description" : "Primary private IP for the second Exchange Server",
             "Type"        : "String",
-            "Default"     : "10.0.3.150"
+            "Default"     : "10.0.64.150"
         },
         "EXCH2PrivateIp2"      : {
             "Description" : "Secondary private IP for the second Exchange Server",
             "Type"        : "String",
-            "Default"     : "10.0.3.151"
+            "Default"     : "10.0.64.151"
         },
         "IncludeEdge"          : {
             "Description" : "Set this parameter to true to include Exchange Edge Transport servers in the public subnets",
@@ -144,13 +144,13 @@
         "PrivSub1CIDR"         : {
             "Description" : "CIDR Block for Private Subnet located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.2.0/24",
+            "Default"     : "10.0.0.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "PrivSub2CIDR"         : {
             "Description" : "CIDR Block for for Private Subnet located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.3.0/24",
+            "Default"     : "10.0.64.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "VPCCIDR"              : {

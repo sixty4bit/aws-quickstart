@@ -60,45 +60,45 @@
         "PullServer1PrivateIp" : {
             "Description" : "Fixed private IP for the first DSC Pull server located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.2.15"
+            "Default"     : "10.0.0.15"
         },
         "PullServer2PrivateIp" : {
             "Description" : "Fixed private IP for the first DSC Pull server located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.3.15"
+            "Default"     : "10.0.64.15"
         },
         "ADServer1PrivateIp"   : {
             "Description" : "Fixed private IP for the first Domain Controller located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.2.10"
+            "Default"     : "10.0.0.10"
         },
         "ADServer2PrivateIp"   : {
             "Description" : "Fixed private IP for the Domain Controller located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.3.10"
+            "Default"     : "10.0.64.10"
         },
         "DMZ1CIDR"             : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.0.0/24",
+            "Default"     : "10.0.32.0/20",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "DMZ2CIDR"             : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.1.0/24",
+            "Default"     : "10.0.96.0/20",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "PrivateSubnet1CIDR"   : {
             "Description" : "CIDR Block for Private Subnet 1 located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.2.0/24",
+            "Default"     : "10.0.0.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "PrivateSubnet2CIDR"   : {
             "Description" : "CIDR Block for Private Subnet 2 located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.3.0/24",
+            "Default"     : "10.0.64.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "VPCCIDR"              : {

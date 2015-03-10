@@ -75,25 +75,25 @@
         "DMZ1CIDR"         : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.0.0/24",
+            "Default"     : "10.0.32.0/20",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "DMZ2CIDR"         : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.1.0/24",
+            "Default"     : "10.0.96.0/20",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "PrivSub1CIDR"     : {
             "Description" : "CIDR Block for Private Subnet 1 located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.2.0/24",
+            "Default"     : "10.0.0.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "PrivSub2CIDR"     : {
             "Description" : "CIDR Block for Private Subnet 2 located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.3.0/24",
+            "Default"     : "10.0.64.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "VPCCIDR"          : {
@@ -105,12 +105,12 @@
         "RDGW1PrivateIp"   : {
             "Description" : "Fixed private IP for the first RD Gateway located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.0.10"
+            "Default"     : "10.0.32.11"
         },
         "RDGW2PrivateIp"   : {
             "Description" : "Fixed private IP for the second RD Gateway located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.1.10"
+            "Default"     : "10.0.96.11"
         }
     },
     "Mappings"                 : {

@@ -184,25 +184,25 @@
         "DMZ1CIDR"            : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.0.0/24",
+            "Default"     : "10.0.32.0/20",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "DMZ2CIDR"            : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.1.0/24",
+            "Default"     : "10.0.96.0/20",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "PrivSub1CIDR"        : {
             "Description" : "CIDR block for the AD Server tier located in AZ1.",
             "Type"        : "String",
-            "Default"     : "10.0.2.0/24",
+            "Default"     : "10.0.0.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "PrivSub2CIDR"        : {
             "Description" : "CIDR block for the AD Server tier located in AZ2.",
             "Type"        : "String",
-            "Default"     : "10.0.3.0/24",
+            "Default"     : "10.0.64.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "VPCCIDR"             : {
@@ -214,42 +214,42 @@
         "AD1PrivateIp"        : {
             "Description" : "Fixed private IP for the first Active Directory server located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.2.10"
+            "Default"     : "10.0.0.10"
         },
         "AD2PrivateIp"        : {
             "Description" : "Fixed private IP for the second Active Directory serverr located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.3.10"
+            "Default"     : "10.0.64.10"
         },
         "WSFCNode1PrivateIp"        : {
             "Description" : "Primary private IP for the 1st WSFC Node located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.2.100"
+            "Default"     : "10.0.0.100"
         },
         "WSFCNode1PrivateIp2"       : {
             "Description" : "Secondary private IP for WSFC cluster on 1st WSFC Node",
             "Type"        : "String",
-            "Default"     : "10.0.2.101"
+            "Default"     : "10.0.0.101"
         },
         "WSFCNode1PrivateIp3"       : {
             "Description" : "Third private IP for Availability Group Listner on 1st WSFC Node",
             "Type"        : "String",
-            "Default"     : "10.0.2.102"
+            "Default"     : "10.0.0.102"
         },
         "WSFCNode2PrivateIp"        : {
             "Description" : "Primary private IP for the 2nd WSFC Node located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.3.100"
+            "Default"     : "10.0.64.100"
         },
         "WSFCNode2PrivateIp2"       : {
             "Description" : "Secondary private IP for WSFC cluster on 2nd WSFC Node",
             "Type"        : "String",
-            "Default"     : "10.0.3.101"
+            "Default"     : "10.0.64.101"
         },
         "WSFCNode2PrivateIp3"       : {
             "Description" : "Third private IP for Availability Group Listner on 2nd WSFC Node",
             "Type"        : "String",
-            "Default"     : "10.0.3.102"
+            "Default"     : "10.0.64.102"
         },
         "DiskProvisionedIOPS"       : {
             "Description" : "PIOPS of the provisioned disks. This templates provisions a total of 6 disks per WSFC Node",

@@ -60,12 +60,12 @@
         "ADServer1PrivateIp"    : {
             "Description" : "Fixed private IP for the first Active Directory server located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.2.10"
+            "Default"     : "10.0.0.10"
         },
         "ADServer2PrivateIp"    : {
             "Description" : "Fixed private IP for the second Active Directory serverr located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.3.10"
+            "Default"     : "10.0.64.10"
         },
         "DomainMemberSGID"      : {
             "Description" : "ID of the Domain Member Security Group (e.g., sg-7f16e910)",

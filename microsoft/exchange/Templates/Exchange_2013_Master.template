@@ -129,25 +129,25 @@
         "DMZ1CIDR"             : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.0.0/24",
+            "Default"     : "10.0.32.0/20",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "DMZ2CIDR"             : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.1.0/24",
+            "Default"     : "10.0.96.0/20",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "PrivSub1CIDR"         : {
             "Description" : "CIDR block for the AD Server tier located in AZ1.",
             "Type"        : "String",
-            "Default"     : "10.0.2.0/24",
+            "Default"     : "10.0.0.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "PrivSub2CIDR"         : {
             "Description" : "CIDR block for the AD Server tier located in AZ2.",
             "Type"        : "String",
-            "Default"     : "10.0.3.0/24",
+            "Default"     : "10.0.64.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "VPCCIDR"              : {
@@ -159,32 +159,32 @@
         "AD1PrivateIp"         : {
             "Description" : "Fixed private IP for the first Active Directory server located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.2.10"
+            "Default"     : "10.0.0.10"
         },
         "AD2PrivateIp"         : {
             "Description" : "Fixed private IP for the second Active Directory serverr located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.3.10"
+            "Default"     : "10.0.64.10"
         },
         "EXCH1PrivateIp"       : {
             "Description" : "Primary private IP for the first Exchange Server",
             "Type"        : "String",
-            "Default"     : "10.0.2.150"
+            "Default"     : "10.0.0.150"
         },
         "EXCH1PrivateIp2"      : {
             "Description" : "Secondary private IP for the first Exchange Server",
             "Type"        : "String",
-            "Default"     : "10.0.2.151"
+            "Default"     : "10.0.0.151"
         },
         "EXCH2PrivateIp"       : {
             "Description" : "Primary private IP for the second Exchange Server",
             "Type"        : "String",
-            "Default"     : "10.0.3.150"
+            "Default"     : "10.0.64.150"
         },
         "EXCH2PrivateIp2"      : {
             "Description" : "Secondary private IP for the second Exchange Server",
             "Type"        : "String",
-            "Default"     : "10.0.3.151"
+            "Default"     : "10.0.64.151"
         },
         "EXCHInstanceType"     : {
             "Description" : "Amazon EC2 instance type for the Exchange Servers",

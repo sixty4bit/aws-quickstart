@@ -4,7 +4,7 @@
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pairs allow you to securely connect to your instance after it launches",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::KeyPair::KeyName"
         },
         "SPInstanceType" : {
             "Description" : "Amazon EC2 instance type for the SharePoint Web Front-End Servers",
@@ -135,27 +135,27 @@
         },
         "DomainMemberSGID"      : {
             "Description" : "ID of the Domain Member Security Group (e.g., sg-7f16e910)",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::SecurityGroup::Id"
         },
         "VPC"                   : {
             "Description" : "ID of the VPC (e.g., vpc-0343606e)",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::VPC::Id"
         },
         "PublicSubnet1"        : {
             "Description" : "ID of the public subnet in AZ1 (e.g., subnet-a0246dcd)",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::Subnet::Id"
         },
         "PublicSubnet2"        : {
             "Description" : "ID of the public subnet in AZ2 (e.g., subnet-a0246dcd)",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::Subnet::Id"
         },
         "PrivateSubnet1"        : {
             "Description" : "ID of the private subnet in AZ1 (e.g., subnet-a0246dcd)",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::Subnet::Id"
         },
         "PrivateSubnet2"        : {
             "Description" : "ID of the private subnet in AZ2 (e.g., subnet-a0246dcd)",
-            "Type"        : "String"
+            "Type"        : "AWS::EC2::Subnet::Id"
         },
         "VPCCIDR"               : {
             "Description" : "CIDR Block used by the VPC",
@@ -347,10 +347,10 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Add-SPFarmLoginNode2.ps1"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Add-SPFarmLoginNode2.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Add-SPFarmLoginNode2.ps1"
                             },
                             "c:\\cfn\\scripts\\Install-SPFiles.ps1"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SPFiles.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SPFiles.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSPFiles.bat"     : {
                                 "content" : {
@@ -364,7 +364,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SP2013.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SP2013.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SP2013.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSP2013.bat"      : {
                                 "content" : {
@@ -394,7 +394,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\config.xml"             : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/config.xml"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/config.xml"
                             }
                         },
                         "services" : {
@@ -867,7 +867,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SPFiles.ps1"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SPFiles.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SPFiles.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSPFiles.bat"     : {
                                 "content" : {
@@ -881,7 +881,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SP2013.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SP2013.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SP2013.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSP2013.bat"      : {
                                 "content" : {
@@ -910,7 +910,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\config.xml"             : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/config.xml"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/config.xml"
                             }
                         },
                         "services" : {
@@ -1280,7 +1280,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SPFiles.ps1"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SPFiles.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SPFiles.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSPFiles.bat"     : {
                                 "content" : {
@@ -1294,7 +1294,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SP2013.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SP2013.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SP2013.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSP2013.bat"      : {
                                 "content" : {
@@ -1323,7 +1323,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\config.xml"             : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/config.xml"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/config.xml"
                             }
                         },
                         "services" : {
@@ -1693,7 +1693,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SPFiles.ps1"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SPFiles.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SPFiles.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSPFiles.bat"     : {
                                 "content" : {
@@ -1707,7 +1707,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SP2013.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SP2013.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SP2013.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSP2013.bat"      : {
                                 "content" : {
@@ -1736,7 +1736,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\config.xml"             : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/config.xml"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/config.xml"
                             }
                         },
                         "services" : {
@@ -2107,7 +2107,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SPFiles.ps1"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SPFiles.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SPFiles.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSPFiles.bat"     : {
                                 "content" : {
@@ -2121,7 +2121,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SP2013.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SP2013.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SP2013.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSP2013.bat"      : {
                                 "content" : {
@@ -2150,7 +2150,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\config.xml"             : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/config.xml"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/config.xml"
                             }
                         },
                         "services" : {
@@ -2521,7 +2521,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SPFiles.ps1"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SPFiles.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SPFiles.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSPFiles.bat"     : {
                                 "content" : {
@@ -2535,7 +2535,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SP2013.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SP2013.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SP2013.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSP2013.bat"      : {
                                 "content" : {
@@ -2564,7 +2564,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\config.xml"             : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/config.xml"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/config.xml"
                             }
                         },
                         "services" : {
@@ -2935,7 +2935,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SPFiles.ps1"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SPFiles.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SPFiles.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSPFiles.bat"     : {
                                 "content" : {
@@ -2949,7 +2949,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SP2013.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SP2013.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SP2013.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSP2013.bat"      : {
                                 "content" : {
@@ -2978,7 +2978,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\config.xml"             : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/config.xml"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/config.xml"
                             }
                         },
                         "services" : {
@@ -3349,7 +3349,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SPFiles.ps1"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SPFiles.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SPFiles.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSPFiles.bat"     : {
                                 "content" : {
@@ -3363,7 +3363,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Install-SP2013.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Install-SP2013.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/Install-SP2013.ps1"
                             },
                             "c:\\cfn\\scripts\\InstallSP2013.bat"      : {
                                 "content" : {
@@ -3392,7 +3392,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\config.xml"             : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/config.xml"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sharepoint/latest/scripts/config.xml"
                             }
                         },
                         "services" : {

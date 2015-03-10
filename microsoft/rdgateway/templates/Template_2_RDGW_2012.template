@@ -66,12 +66,12 @@
         "RDGW1PrivateIp"        : {
             "Description" : "Fixed private IP for the first RD Gateway located in AZ1",
             "Type"        : "String",
-            "Default"     : "10.0.0.10"
+            "Default"     : "10.0.32.11"
         },
         "RDGW2PrivateIp"        : {
             "Description" : "Fixed private IP for the second RD Gateway located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.1.10"
+            "Default"     : "10.0.96.11"
         },
         "VPC"                       : {
             "Description" : "ID of the VPC (e.g., vpc-0343606e)",
