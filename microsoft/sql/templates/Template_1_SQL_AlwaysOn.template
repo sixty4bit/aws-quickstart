@@ -521,7 +521,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\DownloadSQLEE2.ps1" : {
-                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sql/latest/scripts/DownloadSQLEE2b.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sql/latest/scripts/DownloadSQLEE2.ps1"
                             },
                             "c:\\cfn\\scripts\\OpenWSFCPorts.bat"  : {
                                 "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sql/latest/scripts/OpenWSFCPorts.bat"
