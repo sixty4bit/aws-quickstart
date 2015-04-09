@@ -178,11 +178,6 @@
             "Default"     : "10.0.64.0/19",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
-        "DiskProvisionedIOPS"       : {
-            "Description" : "PIOPS of the provisioned disks. This templates provisions a total of 6 disks per WSFC Node",
-            "Type"        : "String",
-            "Default"     : "500"
-        },
         "SQLServerVersion"          : {
             "Description" : "Version of SQL Server to install on WSFC Nodes. Options include either \"2014\" or \"2012\"",
             "Type"        : "String",
@@ -302,7 +297,6 @@
                     "configSets" : {
                         "config" : [
                             "CFNsetup",
-                            "createraid",
                             "rename",
                             "join",
                             "createSqlAccount",
@@ -374,182 +368,6 @@
                                         "",
                                         [
                                             "powershell.exe -command Set-ExecutionPolicy RemoteSigned -Force"
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion" : "0"
-                            }
-                        }
-                    },
-                    "createraid" : {
-                        "files" : {
-                            "C:\\cfn\\scripts\\StripeDisk1.txt" : {
-                                "content" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "select disk=2 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=3 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=4 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=5 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=6 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=7 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=8 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=9 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=2 ",
-                                            "\n",
-                                            "convert dynamic ",
-                                            "\n",
-                                            "select disk=3 ",
-                                            "\n",
-                                            "convert dynamic ",
-                                            "\n",
-                                            "select disk=4 ",
-                                            "\n",
-                                            "convert dynamic ",
-                                            "\n",
-                                            "select disk=5 ",
-                                            "\n",
-                                            "convert dynamic ",
-                                            "\n",
-                                            "select disk=6 ",
-                                            "\n",
-                                            "convert dynamic ",
-                                            "\n",
-                                            "select disk=7 ",
-                                            "\n",
-                                            "convert dynamic",
-                                            "\n",
-                                            "select disk=8 ",
-                                            "\n",
-                                            "convert dynamic",
-                                            "\n",
-                                            "select disk=9 ",
-                                            "\n",
-                                            "convert dynamic",
-                                            "\n",
-                                            "create volume stripe disk=2,3,4,5 ",
-                                            "\n",
-                                            "select volume=3 ",
-                                            "\n",
-                                            "assign letter=D ",
-                                            "\n",
-                                            "format fs=ntfs quick label=\"DATA Volume\" unit=64k",
-                                            "\n",
-                                            "exit",
-                                            "\n"
-                                        ]
-                                    ]
-                                }
-                            },
-                            "C:\\cfn\\scripts\\StripeDisk1.bat" : {
-                                "content" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "diskpart /s C:\\cfn\\scripts\\StripeDisk1.txt",
-                                            "\n"
-                                        ]
-                                    ]
-                                }
-                            },
-                            "C:\\cfn\\scripts\\StripeDisk2.txt" : {
-                                "content" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "create volume stripe disk=6,7 ",
-                                            "\n",
-                                            "select volume=4 ",
-                                            "\n",
-                                            "assign letter=E ",
-                                            "\n",
-                                            "format fs=ntfs quick label=\"LOG Volume\" unit=64k",
-                                            "\n",
-                                            "create volume stripe disk=8,9 ",
-                                            "\n",
-                                            "select volume=5 ",
-                                            "\n",
-                                            "assign letter=F ",
-                                            "\n",
-                                            "format fs=ntfs quick label=\"TEMPDB Volume\" unit=64k",
-                                            "\n",
-                                            "exit",
-                                            "\n"
-                                        ]
-                                    ]
-                                }
-                            },
-                            "C:\\cfn\\scripts\\StripeDisk2.bat" : {
-                                "content" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "diskpart /s C:\\cfn\\scripts\\StripeDisk2.txt",
-                                            "\n"
-                                        ]
-                                    ]
-                                }
-                            }
-                        },
-                        "commands" : {
-                            "1-perform-StripeDisk1" : {
-                                "command" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "C:\\cfn\\scripts\\StripeDisk1.bat"
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion" : "0"
-                            },
-                            "2-perform-StripeDisk2" : {
-                                "command" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "C:\\cfn\\scripts\\StripeDisk2.bat"
                                         ]
                                     ]
                                 },
@@ -703,10 +521,10 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\DownloadSQLEE2.ps1" : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/DownloadSQLEE2.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sql/latest/scripts/DownloadSQLEE2b.ps1"
                             },
                             "c:\\cfn\\scripts\\OpenWSFCPorts.bat"  : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/OpenWSFCPorts.bat"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sql/latest/scripts/OpenWSFCPorts.bat"
                             },
                             "C:\\cfn\\scripts\\AddUserToGroup.ps1" : {
                                 "content" : {
@@ -753,7 +571,7 @@
                                             },
                                             "\\sqlinstall\\*.iso | Mount-DiskImage\"",
                                             "\n",
-                                            "G:\\SETUP.EXE ",
+                                            "g:\\SETUP.EXE ",
                                             "/QS ",
                                             "/Action=Install ",
                                             "/Features=SQLEngine,Replication,FullText,Conn,BOL,ADV_SSMS ",
@@ -797,9 +615,9 @@
                                             "\" ",
                                             "/SQLUSERDBDIR=\"D:\\MSSQL\\DATA\" ",
                                             "/SQLUSERDBLOGDIR=\"E:\\MSSQL\\LOG\" ",
-                                            "/SQLBACKUPDIR=\"D:\\MSSQL\\Backup\" ",
-                                            "/SQLTEMPDBDIR=\"F:\\MSSQL\\TempDB\" ",
-                                            "/SQLTEMPDBLOGDIR=\"F:\\MSSQL\\TempDB\" ",
+                                            "/SQLBACKUPDIR=\"f:\\MSSQL\\Backup\" ",
+                                            "/SQLTEMPDBDIR=\"f:\\MSSQL\\TempDB\" ",
+                                            "/SQLTEMPDBLOGDIR=\"f:\\MSSQL\\TempDB\" ",
                                             "/IACCEPTSQLSERVERLICENSETERMS",
 											"\n",
 											"C:\\PROGRA~1\\MICROS~1\\CLIENT~1\\ODBC\\110\\Tools\\Binn\\SQLCMD.EXE -i c:\\cfn\\scripts\\MaxDOP.sql"
@@ -808,7 +626,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\MaxDOP.sql"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/MaxDOP.sql"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sql/latest/scripts/MaxDOP.sql"
                             }
                         },
                         "commands" : {
@@ -1170,7 +988,7 @@
                         }
                     },
                     {
-                        "DeviceName" : "/dev/xvdb",
+                        "DeviceName" : "/dev/xvdca",
                         "VirtualName" : "ephemeral0"
                     }
                 ],
@@ -1179,49 +997,19 @@
                         "VolumeId" : {
                             "Ref" : "WSFCNode1Volume1"
                         },
-                        "Device"   : "/dev/xvdf"
+                        "Device"   : "/dev/xvdb"
                     },
                     {
                         "VolumeId" : {
                             "Ref" : "WSFCNode1Volume2"
                         },
-                        "Device"   : "/dev/xvdg"
+                        "Device"   : "/dev/xvdc"
                     },
                     {
                         "VolumeId" : {
                             "Ref" : "WSFCNode1Volume3"
                         },
-                        "Device"   : "/dev/xvdh"
-                    },
-                    {
-                        "VolumeId" : {
-                            "Ref" : "WSFCNode1Volume4"
-                        },
-                        "Device"   : "/dev/xvdi"
-                    },
-                    {
-                        "VolumeId" : {
-                            "Ref" : "WSFCNode1Volume5"
-                        },
-                        "Device"   : "/dev/xvdj"
-                    },
-                    {
-                        "VolumeId" : {
-                            "Ref" : "WSFCNode1Volume6"
-                        },
-                        "Device"   : "/dev/xvdk"
-                    },
-                    {
-                        "VolumeId" : {
-                            "Ref" : "WSFCNode1Volume7"
-                        },
-                        "Device"   : "/dev/xvdl"
-                    },
-                    {
-                        "VolumeId" : {
-                            "Ref" : "WSFCNode1Volume8"
-                        },
-                        "Device"   : "/dev/xvdm"
+                        "Device"   : "/dev/xvdd"
                     }
                 ],
                 "KeyName"             : {
@@ -1258,7 +1046,6 @@
                     "configSets" : {
                         "config" : [
                             "CFNsetup",
-                            "createraid",
                             "rename",
                             "join",
                             "installsql",
@@ -1311,7 +1098,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\MaxDOP.sql"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/MaxDOP.sql"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sql/latest/scripts/MaxDOP.sql"
                             }
                         },
                         "services" : {
@@ -1333,182 +1120,6 @@
                                         "",
                                         [
                                             "powershell.exe -command Set-ExecutionPolicy RemoteSigned -Force"
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion" : "0"
-                            }
-                        }
-                    },
-                    "createraid" : {
-                        "files" : {
-                            "C:\\cfn\\scripts\\StripeDisk1.txt" : {
-                                "content" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "select disk=2 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=3 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=4 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=5 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=6 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=7 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=8 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=9 ",
-                                            "\n",
-                                            "select partition 1 ",
-                                            "\n",
-                                            "delete partition ",
-                                            "\n",
-                                            "select disk=2 ",
-                                            "\n",
-                                            "convert dynamic ",
-                                            "\n",
-                                            "select disk=3 ",
-                                            "\n",
-                                            "convert dynamic ",
-                                            "\n",
-                                            "select disk=4 ",
-                                            "\n",
-                                            "convert dynamic ",
-                                            "\n",
-                                            "select disk=5 ",
-                                            "\n",
-                                            "convert dynamic ",
-                                            "\n",
-                                            "select disk=6 ",
-                                            "\n",
-                                            "convert dynamic ",
-                                            "\n",
-                                            "select disk=7 ",
-                                            "\n",
-                                            "convert dynamic",
-                                            "\n",
-                                            "select disk=8 ",
-                                            "\n",
-                                            "convert dynamic",
-                                            "\n",
-                                            "select disk=9 ",
-                                            "\n",
-                                            "convert dynamic",
-                                            "\n",
-                                            "create volume stripe disk=2,3,4,5 ",
-                                            "\n",
-                                            "select volume=3 ",
-                                            "\n",
-                                            "assign letter=D ",
-                                            "\n",
-                                            "format fs=ntfs quick label=\"DATA Volume\" unit=64k",
-                                            "\n",
-                                            "exit",
-                                            "\n"
-                                        ]
-                                    ]
-                                }
-                            },
-                            "C:\\cfn\\scripts\\StripeDisk1.bat" : {
-                                "content" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "diskpart /s C:\\cfn\\scripts\\StripeDisk1.txt",
-                                            "\n"
-                                        ]
-                                    ]
-                                }
-                            },
-                            "C:\\cfn\\scripts\\StripeDisk2.txt" : {
-                                "content" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "create volume stripe disk=6,7 ",
-                                            "\n",
-                                            "select volume=4 ",
-                                            "\n",
-                                            "assign letter=E ",
-                                            "\n",
-                                            "format fs=ntfs quick label=\"LOG Volume\" unit=64k",
-                                            "\n",
-                                            "create volume stripe disk=8,9 ",
-                                            "\n",
-                                            "select volume=5 ",
-                                            "\n",
-                                            "assign letter=F ",
-                                            "\n",
-                                            "format fs=ntfs quick label=\"TEMPDB Volume\" unit=64k",
-                                            "\n",
-                                            "exit",
-                                            "\n"
-                                        ]
-                                    ]
-                                }
-                            },
-                            "C:\\cfn\\scripts\\StripeDisk2.bat" : {
-                                "content" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "diskpart /s C:\\cfn\\scripts\\StripeDisk2.txt",
-                                            "\n"
-                                        ]
-                                    ]
-                                }
-                            }
-                        },
-                        "commands" : {
-                            "1-perform-StripeDisk1" : {
-                                "command" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "C:\\cfn\\scripts\\StripeDisk1.bat"
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion" : "0"
-                            },
-                            "2-perform-StripeDisk2" : {
-                                "command" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "C:\\cfn\\scripts\\StripeDisk2.bat"
                                         ]
                                     ]
                                 },
@@ -1606,7 +1217,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\OpenWSFCPorts.bat" : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/OpenWSFCPorts.bat"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/sql/latest/scripts/OpenWSFCPorts.bat"
                             },
                             "C:\\cfn\\scripts\\AddUserToGroup.ps1" : {
                                 "content" : {
@@ -1653,7 +1264,7 @@
                                             },
                                             "\\sqlinstall\\*.iso | Mount-DiskImage\"",
                                             "\n",
-                                            "G:\\SETUP.EXE ",
+                                            "g:\\SETUP.EXE ",
                                             "/QS ",
                                             "/Action=Install ",
                                             "/Features=SQLEngine,Replication,FullText,Conn,BOL,ADV_SSMS ",
@@ -1697,9 +1308,9 @@
                                             "\" ",
                                             "/SQLUSERDBDIR=\"D:\\MSSQL\\DATA\" ",
                                             "/SQLUSERDBLOGDIR=\"E:\\MSSQL\\LOG\" ",
-                                            "/SQLBACKUPDIR=\"D:\\MSSQL\\Backup\" ",
-                                            "/SQLTEMPDBDIR=\"F:\\MSSQL\\TempDB\" ",
-                                            "/SQLTEMPDBLOGDIR=\"F:\\MSSQL\\TempDB\" ",
+                                            "/SQLBACKUPDIR=\"f:\\MSSQL\\Backup\" ",
+                                            "/SQLTEMPDBDIR=\"f:\\MSSQL\\TempDB\" ",
+                                            "/SQLTEMPDBLOGDIR=\"f:\\MSSQL\\TempDB\" ",
                                             "/IACCEPTSQLSERVERLICENSETERMS",
 											"\n",
 											"C:\\PROGRA~1\\MICROS~1\\CLIENT~1\\ODBC\\110\\Tools\\Binn\\SQLCMD.EXE -i c:\\cfn\\scripts\\MaxDOP.sql"
@@ -1833,9 +1444,6 @@
                                         ]
                                     ]
                                 }
-                            },
-                            "c:\\cfn\\scripts\\MaxDOP.sql"    : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/MaxDOP.sql"
                             }
                         },
                         "commands" : {
@@ -2336,7 +1944,7 @@
                         }
                     },
                     {
-                        "DeviceName" : "/dev/xvdb",
+                        "DeviceName" : "/dev/xvdca",
                         "VirtualName" : "ephemeral0"
                     }
                 ],
@@ -2345,49 +1953,19 @@
                         "VolumeId" : {
                             "Ref" : "WSFCNode2Volume1"
                         },
-                        "Device"   : "/dev/xvdf"
+                        "Device"   : "/dev/xvdb"
                     },
                     {
                         "VolumeId" : {
                             "Ref" : "WSFCNode2Volume2"
                         },
-                        "Device"   : "/dev/xvdg"
+                        "Device"   : "/dev/xvdc"
                     },
                     {
                         "VolumeId" : {
                             "Ref" : "WSFCNode2Volume3"
                         },
-                        "Device"   : "/dev/xvdh"
-                    },
-                    {
-                        "VolumeId" : {
-                            "Ref" : "WSFCNode2Volume4"
-                        },
-                        "Device"   : "/dev/xvdi"
-                    },
-                    {
-                        "VolumeId" : {
-                            "Ref" : "WSFCNode2Volume5"
-                        },
-                        "Device"   : "/dev/xvdj"
-                    },
-                    {
-                        "VolumeId" : {
-                            "Ref" : "WSFCNode2Volume6"
-                        },
-                        "Device"   : "/dev/xvdk"
-                    },
-                    {
-                        "VolumeId" : {
-                            "Ref" : "WSFCNode2Volume7"
-                        },
-                        "Device"   : "/dev/xvdl"
-                    },
-                    {
-                        "VolumeId" : {
-                            "Ref" : "WSFCNode2Volume8"
-                        },
-                        "Device"   : "/dev/xvdm"
+                        "Device"   : "/dev/xvdd"
                     }
                 ],
                 "KeyName"             : {
@@ -2419,11 +1997,8 @@
         "WSFCNode1Volume1"       : {
             "Type" : "AWS::EC2::Volume",
             "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
+                "Size" : "500",
+                "VolumeType" : "gp2",
                 "AvailabilityZone" : {
                     "Fn::Select" : [
                         0,
@@ -2437,11 +2012,8 @@
         "WSFCNode1Volume2"       : {
             "Type" : "AWS::EC2::Volume",
             "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
+                "Size" : "500",
+                "VolumeType" : "gp2",
                 "AvailabilityZone" : {
                     "Fn::Select" : [
                         0,
@@ -2455,11 +2027,8 @@
         "WSFCNode1Volume3"       : {
             "Type" : "AWS::EC2::Volume",
             "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
+                "Size" : "500",
+                "VolumeType" : "gp2",
                 "AvailabilityZone" : {
                     "Fn::Select" : [
                         0,
@@ -2470,104 +2039,12 @@
                 }
             }
         },
-        "WSFCNode1Volume4"       : {
-            "Type" : "AWS::EC2::Volume",
-            "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
-                "AvailabilityZone" : {
-                    "Fn::Select" : [
-                        0,
-                        {
-                            "Fn::GetAZs" : ""
-                        }
-                    ]
-                }
-            }
-        },
-        "WSFCNode1Volume5"       : {
-            "Type" : "AWS::EC2::Volume",
-            "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
-                "AvailabilityZone" : {
-                    "Fn::Select" : [
-                        0,
-                        {
-                            "Fn::GetAZs" : ""
-                        }
-                    ]
-                }
-            }
-        },
-        "WSFCNode1Volume6"       : {
-            "Type" : "AWS::EC2::Volume",
-            "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
-                "AvailabilityZone" : {
-                    "Fn::Select" : [
-                        0,
-                        {
-                            "Fn::GetAZs" : ""
-                        }
-                    ]
-                }
-            }
-        },
-        "WSFCNode1Volume7"       : {
-            "Type" : "AWS::EC2::Volume",
-            "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
-                "AvailabilityZone" : {
-                    "Fn::Select" : [
-                        0,
-                        {
-                            "Fn::GetAZs" : ""
-                        }
-                    ]
-                }
-            }
-        },
-        "WSFCNode1Volume8"       : {
-            "Type" : "AWS::EC2::Volume",
-            "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
-                "AvailabilityZone" : {
-                    "Fn::Select" : [
-                        0,
-                        {
-                            "Fn::GetAZs" : ""
-                        }
-                    ]
-                }
-            }
-        },
+
         "WSFCNode2Volume1"       : {
             "Type" : "AWS::EC2::Volume",
             "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
+                "Size" : "500",
+                "VolumeType" : "gp2",
                 "AvailabilityZone" : {
                     "Fn::Select" : [
                         1,
@@ -2581,11 +2058,8 @@
         "WSFCNode2Volume2"       : {
             "Type" : "AWS::EC2::Volume",
             "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
+                "Size" : "500",
+                "VolumeType" : "gp2",
                 "AvailabilityZone" : {
                     "Fn::Select" : [
                         1,
@@ -2599,11 +2073,8 @@
         "WSFCNode2Volume3"       : {
             "Type" : "AWS::EC2::Volume",
             "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
+                "Size" : "500",
+                "VolumeType" : "gp2",
                 "AvailabilityZone" : {
                     "Fn::Select" : [
                         1,
@@ -2614,96 +2085,7 @@
                 }
             }
         },
-        "WSFCNode2Volume4"       : {
-            "Type" : "AWS::EC2::Volume",
-            "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
-                "AvailabilityZone" : {
-                    "Fn::Select" : [
-                        1,
-                        {
-                            "Fn::GetAZs" : ""
-                        }
-                    ]
-                }
-            }
-        },
-        "WSFCNode2Volume5"       : {
-            "Type" : "AWS::EC2::Volume",
-            "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
-                "AvailabilityZone" : {
-                    "Fn::Select" : [
-                        1,
-                        {
-                            "Fn::GetAZs" : ""
-                        }
-                    ]
-                }
-            }
-        },
-        "WSFCNode2Volume6"       : {
-            "Type" : "AWS::EC2::Volume",
-            "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
-                "AvailabilityZone" : {
-                    "Fn::Select" : [
-                        1,
-                        {
-                            "Fn::GetAZs" : ""
-                        }
-                    ]
-                }
-            }
-        },
-        "WSFCNode2Volume7"       : {
-            "Type" : "AWS::EC2::Volume",
-            "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
-                "AvailabilityZone" : {
-                    "Fn::Select" : [
-                        1,
-                        {
-                            "Fn::GetAZs" : ""
-                        }
-                    ]
-                }
-            }
-        },
-        "WSFCNode2Volume8"       : {
-            "Type" : "AWS::EC2::Volume",
-            "Properties" : {
-                "Size" : "200",
-                "Iops" : {
-                    "Ref" : "DiskProvisionedIOPS"
-                },
-                "VolumeType" : "io1",
-                "AvailabilityZone" : {
-                    "Fn::Select" : [
-                        1,
-                        {
-                            "Fn::GetAZs" : ""
-                        }
-                    ]
-                }
-            }
-        },
+
         "WSFCSecurityGroup"      : {
             "Type" : "AWS::EC2::SecurityGroup",
             "Properties" : {
