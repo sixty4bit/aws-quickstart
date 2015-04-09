@@ -251,11 +251,6 @@
             "Type"        : "String",
             "Default"     : "10.0.64.102"
         },
-        "DiskProvisionedIOPS"       : {
-            "Description" : "PIOPS of the provisioned disks. This templates provisions a total of 6 disks per WSFC Node",
-            "Type"        : "String",
-            "Default"     : "500"
-        },
         "SQLServerVersion"       : {
             "Description" : "Version of SQL Server to install on WSFC Nodes. Options include either \"2014\" or \"2012\"",
             "Type"        : "String",
@@ -303,7 +298,6 @@
 					"ADServer2PrivateIp" : {"Ref" : "AD2PrivateIp"},
 					"ADServerNetBIOSName1" : {"Ref" : "ADServerNetBIOSName1"},
 					"ADServerNetBIOSName2" : {"Ref" : "ADServerNetBIOSName2"},
-					"DiskProvisionedIOPS" : {"Ref" : "DiskProvisionedIOPS"},
 					"SQLServerVersion" : {"Ref" : "SQLServerVersion"},
 					"DomainAdminPassword" : {"Ref" : "DomainAdminPassword"},
 					"DomainAdminUser" : {"Ref" : "DomainAdminUser"},
