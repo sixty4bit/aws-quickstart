@@ -331,7 +331,7 @@
                                             "import-module BitsTransfer ",
                                             "\n",
                                             "Start-BitsTransfer ",
-                                            "-Source https://wsfc-cfn-useast.s3.amazonaws.com/SQLBlaster_Demo.zip -Destination \"$zipfilename\"",
+                                            "-Source https://s3.amazonaws.com/quickstart-reference/microsoft/sql/latest/scripts/SQLBlaster_Demo.zip -Destination \"$zipfilename\"",
                                             "\n",
                                             "if(test-path($zipfilename))",
                                             "\n",

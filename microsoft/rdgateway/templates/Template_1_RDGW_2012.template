@@ -698,7 +698,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Configure-RDGW.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Configure-RDGW.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/Configure-RDGW.ps1"
                             }
                         },
                         "services" : {
@@ -949,6 +949,9 @@
                                         ]
                                     ]
                                 }
+                            },
+                            "c:\\cfn\\scripts\\Configure-RDGW.ps1"     : {
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/Configure-RDGW.ps1"
                             }
                         },
                         "services" : {
@@ -1026,24 +1029,13 @@
                                     ]
                                 }
                             },
-                            "d-download-rdgw-script" : {
-                                "command" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "powershell.exe",
-                                            " Start-BitsTransfer -Source https://s3.amazonaws.com/microsoft_windows/scripts/Configure-RDGW.ps1 -Destination c:\\cfn\\"
-                                        ]
-                                    ]
-                                }
-                            },
                             "e-configure-rdgw"       : {
                                 "command" : {
                                     "Fn::Join" : [
                                         "",
                                         [
                                             "powershell.exe -ExecutionPolicy RemoteSigned",
-                                            " C:\\cfn\\Configure-RDGW.ps1 -ServerFQDN ",
+                                            " C:\\cfn\\scripts\\Configure-RDGW.ps1 -ServerFQDN ",
                                             {
                                                 "Ref" : "RDGWNetBIOSName2"
                                             },

@@ -828,10 +828,10 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\New-LabADUser.ps1"      : {
-                                "source" : "https://s3.amazonaws.com/CFN_WS2012_Scripts/AD/New-LabADUser.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/New-LabADUser.ps1"
                             },
                             "c:\\cfn\\scripts\\users.csv"              : {
-                                "source" : "https://s3.amazonaws.com/CFN_WS2012_Scripts/AD/users.csv"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/users.csv"
                             },
                             "c:\\cfn\\scripts\\ConvertTo-EnterpriseAdmin.ps1"              : {
                                 "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/ConvertTo-EnterpriseAdmin.ps1"
@@ -1646,7 +1646,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Configure-RDGW.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Configure-RDGW.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/Configure-RDGW.ps1"
                             }
                         },
                         "services" : {
@@ -1917,7 +1917,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Configure-RDGW.ps1"     : {
-                                "source" : "https://s3.amazonaws.com/microsoft_windows/scripts/Configure-RDGW.ps1"
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/Configure-RDGW.ps1"
                             }
                         },
                         "services" : {
