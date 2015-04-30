@@ -765,6 +765,7 @@
                             "rename",
                             "installADDS",
                             "configureSites",
+							"installADCS",
                             "finalize"
                         ]
                     },
@@ -835,6 +836,15 @@
                             },
                             "c:\\cfn\\scripts\\ConvertTo-EnterpriseAdmin.ps1"              : {
                                 "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/ConvertTo-EnterpriseAdmin.ps1"
+                            },
+                            "c:\\cfn\\scripts\\New-CertificateAuthority.ps1"              : {
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/New-CertificateAuthority.ps1"
+                            },
+                            "c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip"              : {
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/xAdcsDeployment_0.1.0.0.zip"
+                            },
+                            "c:\\cfn\\scripts\\Unzip-Archive.ps1"      : {
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/utilities/latest/scripts/Unzip-Archive.ps1"
                             }
                         },
                         "services" : {
@@ -859,6 +869,14 @@
                                         ]
                                     ]
                                 },
+                                "waitAfterCompletion" : "0"
+                            },
+                            "b-set-execution-policy" : {
+                                "command" : "powershell.exe -command Set-ExecutionPolicy RemoteSigned -Force",
+                                "waitAfterCompletion" : "0"
+                            },
+                            "c-unpack-dsc-resource" : {
+                                "command" : "powershell.exe -command c:\\cfn\\scripts\\Unzip-Archive.ps1 -Source c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip -Destination 'C:\\Program Files\\WindowsPowerShell\\Modules'",
                                 "waitAfterCompletion" : "0"
                             }
                         }
@@ -1117,6 +1135,32 @@
                             }
                         }
                     },
+                    "installADCS"       : {
+                        "commands" : {
+                            "a-install-ca" : {
+                                "command" : {
+                                    "Fn::Join" : [
+                                        "",
+                                        [
+                                            "powershell.exe -Command c:\\cfn\\scripts\\New-CertificateAuthority.ps1 -Username ",
+                                            {
+                                                "Ref" : "DomainAdminUser"
+                                            },
+											" -Password ",
+                                            {
+                                                "Ref" : "DomainAdminPassword"
+                                            },
+											" -DomainDNSName ",
+                                            {
+                                                "Ref" : "DomainDNSName"
+                                            }
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion" : "0"
+                            }
+                        }
+                    },
                     "finalize"       : {
                         "commands" : {
                             "a-signal-success" : {
@@ -1223,6 +1267,7 @@
                             "rename",
                             "join",
                             "addDomainController",
+							"installADCS",
                             "finalize"
                         ]
                     },
@@ -1287,6 +1332,15 @@
                                         ]
                                     ]
                                 }
+                            },
+                            "c:\\cfn\\scripts\\New-CertificateAuthority.ps1"              : {
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/New-CertificateAuthority.ps1"
+                            },
+                            "c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip"              : {
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/xAdcsDeployment_0.1.0.0.zip"
+                            },
+                            "c:\\cfn\\scripts\\Unzip-Archive.ps1"      : {
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/utilities/latest/scripts/Unzip-Archive.ps1"
                             }
                         },
                         "services" : {
@@ -1311,6 +1365,14 @@
                                         ]
                                     ]
                                 },
+                                "waitAfterCompletion" : "0"
+                            },
+                            "b-set-execution-policy" : {
+                                "command" : "powershell.exe -command Set-ExecutionPolicy RemoteSigned -Force",
+                                "waitAfterCompletion" : "0"
+                            },
+                            "c-unpack-dsc-resource" : {
+                                "command" : "powershell.exe -command c:\\cfn\\scripts\\Unzip-Archive.ps1 -Source c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip -Destination 'C:\\Program Files\\WindowsPowerShell\\Modules'",
                                 "waitAfterCompletion" : "0"
                             }
                         }
@@ -1429,6 +1491,32 @@
                                     ]
                                 },
                                 "waitAfterCompletion" : "forever"
+                            }
+                        }
+                    },
+                    "installADCS"       : {
+                        "commands" : {
+                            "a-install-ca" : {
+                                "command" : {
+                                    "Fn::Join" : [
+                                        "",
+                                        [
+                                            "powershell.exe -Command c:\\cfn\\scripts\\New-CertificateAuthority.ps1 -Username ",
+                                            {
+                                                "Ref" : "DomainAdminUser"
+                                            },
+											" -Password ",
+                                            {
+                                                "Ref" : "DomainAdminPassword"
+                                            },
+											" -DomainDNSName ",
+                                            {
+                                                "Ref" : "DomainDNSName"
+                                            }
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion" : "0"
                             }
                         }
                     },
@@ -1659,6 +1747,12 @@
                                         "c:\\cfn\\hooks.d\\cfn-auto-reloader.conf"
                                     ]
                                 }
+                            }
+                        },
+                        "commands" : {
+                            "a-set-execution-policy" : {
+                                "command" : "powershell.exe -command Set-ExecutionPolicy RemoteSigned -Force",
+                                "waitAfterCompletion" : "0"
                             }
                         }
                     },
@@ -1930,6 +2024,12 @@
                                         "c:\\cfn\\hooks.d\\cfn-auto-reloader.conf"
                                     ]
                                 }
+                            }
+                        },
+                        "commands" : {
+                            "a-set-execution-policy" : {
+                                "command" : "powershell.exe -command Set-ExecutionPolicy RemoteSigned -Force",
+                                "waitAfterCompletion" : "0"
                             }
                         }
                     },
