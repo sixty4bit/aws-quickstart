@@ -89,7 +89,7 @@
         "DMZ2CIDR"             : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ2",
             "Type"        : "String",
-            "Default"     : "10.0.0.0/19",
+            "Default"     : "10.0.96.0/20",
             "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
         },
         "PrivSub1CIDR"         : {
