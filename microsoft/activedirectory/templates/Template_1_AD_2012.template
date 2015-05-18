@@ -2670,15 +2670,7 @@
                         "FromPort"   : "-1",
                         "ToPort"     : "-1",
                         "CidrIp"     : {
-                            "Ref" : "DMZ1CIDR"
-                        }
-                    },
-                    {
-                        "IpProtocol" : "icmp",
-                        "FromPort"   : "-1",
-                        "ToPort"     : "-1",
-                        "CidrIp"     : {
-                            "Ref" : "DMZ2CIDR"
+                            "Ref" : "VPCCIDR"
                         }
                     }
                 ]
@@ -3065,15 +3057,7 @@
                         "FromPort"   : "-1",
                         "ToPort"     : "-1",
                         "CidrIp"     : {
-                            "Ref" : "DMZ1CIDR"
-                        }
-                    },
-                    {
-                        "IpProtocol" : "icmp",
-                        "FromPort"   : "-1",
-                        "ToPort"     : "-1",
-                        "CidrIp"     : {
-                            "Ref" : "DMZ2CIDR"
+                            "Ref" : "VPCCIDR"
                         }
                     }
                 ]
