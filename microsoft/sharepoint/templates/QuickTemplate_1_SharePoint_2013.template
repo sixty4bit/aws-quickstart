@@ -1,0 +1,459 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description"              : "(F009) - This template deploys two Web Front-Ends and two App Servers with SharePoint 2013 installed. **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Parameters"               : {
+        "KeyPairName" : {
+            "Description" : "Public/private key pairs allow you to securely connect to your instance after it launches",
+            "Type"        : "AWS::EC2::KeyPair::KeyName"
+        },
+        "AdminPassword" : {
+            "Description" : "Password for stackadmin@example.com domain admin user and local administrator accounts. Must be at least 8 characters containing letters, numbers and symbols",
+            "Type"        : "String",
+            "MinLength"   : "8",
+            "MaxLength"   : "32",
+            "AllowedPattern" : "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
+            "NoEcho"         : "true",
+            "Default"        : "Password123"
+        },
+        "DomainMemberSGID" : {
+            "Description" : "ID of the Domain Member Security Group (e.g., sg-7f16e910)",
+            "Type"        : "AWS::EC2::SecurityGroup::Id"
+        },
+        "VPC"              : {
+            "Description" : "ID of the VPC (e.g., vpc-0343606e)",
+            "Type"        : "AWS::EC2::VPC::Id"
+        },
+        "PublicSubnet1"    : {
+            "Description" : "ID of the public subnet in AZ1 (e.g., subnet-a0246dcd)",
+            "Type"        : "AWS::EC2::Subnet::Id"
+        },
+        "PublicSubnet2"    : {
+            "Description" : "ID of the public subnet in AZ2 (e.g., subnet-a0246dcd)",
+            "Type"        : "AWS::EC2::Subnet::Id"
+        },
+        "PrivateSubnet1"   : {
+            "Description" : "ID of the private subnet in AZ1 (e.g., subnet-a0246dcd)",
+            "Type"        : "AWS::EC2::Subnet::Id"
+        },
+        "PrivateSubnet2"   : {
+            "Description" : "ID of the private subnet in AZ2 (e.g., subnet-a0246dcd)",
+            "Type"        : "AWS::EC2::Subnet::Id"
+        }
+    },
+    "Mappings"                 : {
+        "AWSWinRegionMap" : {
+            "us-east-1" : {
+                "SP1" : "ami-9f6084f4",
+                "SP2" : "ami-976084fc",
+                "SP3" : "ami-6b618500",
+                "SP4" : "ami-63618508"
+            },
+            "us-west-1" : {
+                "SP1" : "ami-732fc737",
+                "SP2" : "ami-7d2fc739",
+                "SP3" : "ami-7f2fc73b",
+                "SP4" : "ami-792fc73d"
+            },
+            "us-west-2" : {
+                "SP1" : "ami-d9dce0e9",
+                "SP2" : "ami-dbdce0eb",
+                "SP3" : "ami-dddce0ed",
+                "SP4" : "ami-dfdce0ef"
+            },
+            "ap-northeast-1" : {
+                "SP1" : "ami-f6b263f6",
+                "SP2" : "ami-f8b263f8",
+                "SP3" : "ami-fab263fa",
+                "SP4" : "ami-fcb263fc"
+            },
+            "ap-southeast-1" : {
+                "SP1" : "ami-ca417998",
+                "SP2" : "ami-c841799a",
+                "SP3" : "ami-ce41799c",
+                "SP4" : "ami-cc41799e"
+            },
+            "ap-southeast-2" : {
+                "SP1" : "ami-01b9c03b",
+                "SP2" : "ami-07b9c03d",
+                "SP3" : "ami-05b9c03f",
+                "SP4" : "ami-7bb9c041"
+            },
+            "eu-central-1" : {
+                "SP1" : "ami-8a8ab497",
+                "SP2" : "ami-848ab499",
+                "SP3" : "ami-868ab49b",
+                "SP4" : "ami-808ab49d"
+            },
+            "eu-west-1" : {
+                "SP1" : "ami-95ccbde2",
+                "SP2" : "ami-93ccbde4",
+                "SP3" : "ami-91ccbde6",
+                "SP4" : "ami-9fccbde8"
+            },
+            "sa-east-1" : {
+                "SP1" : "ami-c58405d8",
+                "SP2" : "ami-c78405da",
+                "SP3" : "ami-c18405dc",
+                "SP4" : "ami-c38405de"
+            }
+        }
+    },
+    "Resources"                : {
+        "SP1" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "ImageId" : {
+                    "Fn::FindInMap" : [
+                        "AWSWinRegionMap",
+                        {
+                            "Ref" : "AWS::Region"
+                        },
+                        "SP1"
+                    ]
+                },
+                "InstanceType" : "c3.2xlarge",
+                "SubnetId"     : {
+                    "Ref" : "PrivateSubnet1"
+                },
+                "Tags"         : [
+                    {
+                        "Key" : "Name",
+                        "Value" : "SP1"
+                    }
+                ],
+                "SecurityGroupIds" : [
+                    {
+                        "Ref" : "SPServersSG"
+                    },
+                    {
+                        "Ref" : "SPFarmSG"
+                    },
+                    {
+                        "Ref" : "DomainMemberSGID"
+                    }
+                ],
+                "KeyName"          : {
+                    "Ref" : "KeyPairName"
+                },
+                "UserData"            : {
+                    "Fn::Base64" : {
+                        "Fn::Join" : [
+                            "",
+                            [
+                                "<powershell>\n",
+                                "([adsi](\"WinNT://$env:COMPUTERNAME/administrator, user\")).psbase.invoke('SetPassword', '",
+                                {
+                                    "Ref" : "AdminPassword"
+                                },
+								"')",
+                                "\n",
+                                "</powershell>\n"
+                            ]
+                        ]
+                    }
+                }
+            }
+        },
+        "SP2" : {
+            "Type" : "AWS::EC2::Instance",
+            "DependsOn" : "SP1",
+            "Properties" : {
+                "ImageId" : {
+                    "Fn::FindInMap" : [
+                        "AWSWinRegionMap",
+                        {
+                            "Ref" : "AWS::Region"
+                        },
+                        "SP2"
+                    ]
+                },
+                "InstanceType" : "c3.2xlarge",
+                "SubnetId"     : {
+                    "Ref" : "PrivateSubnet2"
+                },
+                "Tags"         : [
+                    {
+                        "Key" : "Name",
+                        "Value" : "SP2"
+                    }
+                ],
+                "SecurityGroupIds" : [
+                    {
+                        "Ref" : "SPServersSG"
+                    },
+                    {
+                        "Ref" : "SPFarmSG"
+                    },
+                    {
+                        "Ref" : "DomainMemberSGID"
+                    }
+                ],
+                "KeyName"          : {
+                    "Ref" : "KeyPairName"
+                },
+                "UserData"            : {
+                    "Fn::Base64" : {
+                        "Fn::Join" : [
+                            "",
+                            [
+                                "<powershell>\n",
+                                "([adsi](\"WinNT://$env:COMPUTERNAME/administrator, user\")).psbase.invoke('SetPassword', '",
+                                {
+                                    "Ref" : "AdminPassword"
+                                },
+								"')",
+                                "\n",
+                                "</powershell>\n"
+                            ]
+                        ]
+                    }
+                }
+            }
+        },
+        "SP3" : {
+            "Type" : "AWS::EC2::Instance",
+            "DependsOn" : "SP1",
+            "Properties" : {
+                "ImageId" : {
+                    "Fn::FindInMap" : [
+                        "AWSWinRegionMap",
+                        {
+                            "Ref" : "AWS::Region"
+                        },
+                        "SP3"
+                    ]
+                },
+                "InstanceType" : "c3.2xlarge",
+                "SubnetId"     : {
+                    "Ref" : "PrivateSubnet1"
+                },
+                "Tags"         : [
+                    {
+                        "Key" : "Name",
+                        "Value" : "SP3"
+                    }
+                ],
+                "SecurityGroupIds" : [
+                    {
+                        "Ref" : "SPServersSG"
+                    },
+                    {
+                        "Ref" : "SPFarmSG"
+                    },
+                    {
+                        "Ref" : "DomainMemberSGID"
+                    }
+                ],
+                "KeyName"          : {
+                    "Ref" : "KeyPairName"
+                },
+                "UserData"            : {
+                    "Fn::Base64" : {
+                        "Fn::Join" : [
+                            "",
+                            [
+                                "<powershell>\n",
+                                "([adsi](\"WinNT://$env:COMPUTERNAME/administrator, user\")).psbase.invoke('SetPassword', '",
+                                {
+                                    "Ref" : "AdminPassword"
+                                },
+								"')",
+                                "\n",
+                                "</powershell>\n"
+                            ]
+                        ]
+                    }
+                }
+            }
+        },
+        "SP4" : {
+            "Type" : "AWS::EC2::Instance",
+            "DependsOn" : "SP1",
+            "Properties" : {
+                "ImageId" : {
+                    "Fn::FindInMap" : [
+                        "AWSWinRegionMap",
+                        {
+                            "Ref" : "AWS::Region"
+                        },
+                        "SP4"
+                    ]
+                },
+                "InstanceType" : "c3.2xlarge",
+                "SubnetId"     : {
+                    "Ref" : "PrivateSubnet2"
+                },
+                "Tags"         : [
+                    {
+                        "Key" : "Name",
+                        "Value" : "SP4"
+                    }
+                ],
+                "SecurityGroupIds" : [
+                    {
+                        "Ref" : "SPServersSG"
+                    },
+                    {
+                        "Ref" : "SPFarmSG"
+                    },
+                    {
+                        "Ref" : "DomainMemberSGID"
+                    }
+                ],
+                "KeyName"          : {
+                    "Ref" : "KeyPairName"
+                },
+                "UserData"            : {
+                    "Fn::Base64" : {
+                        "Fn::Join" : [
+                            "",
+                            [
+                                "<powershell>\n",
+                                "([adsi](\"WinNT://$env:COMPUTERNAME/administrator, user\")).psbase.invoke('SetPassword', '",
+                                {
+                                    "Ref" : "AdminPassword"
+                                },
+								"')",
+                                "\n",
+                                "</powershell>\n"
+                            ]
+                        ]
+                    }
+                }
+            }
+        },
+        "SPLoadBalancer" : {
+            "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
+            "DependsOn" : [
+                "SP1",
+                "SP2"
+            ],
+            "Properties" : {
+                "Subnets" : [
+                    {
+                        "Ref" : "PublicSubnet1"
+                    },
+                    {
+                        "Ref" : "PublicSubnet2"
+                    }
+                ],
+                "Scheme"  : "internet-facing",
+                "Instances" : [
+                    {
+                        "Ref" : "SP1"
+                    },
+                    {
+                        "Ref" : "SP2"
+                    }
+                ],
+                "Listeners" : [
+                    {
+                        "LoadBalancerPort" : "80",
+                        "InstancePort"     : "80",
+                        "Protocol"         : "TCP"
+                    }
+                ],
+                "SecurityGroups" : [
+                    {
+                        "Ref" : "SPWebSG"
+                    }
+                ],
+                "HealthCheck"    : {
+                    "Target" : "TCP:80",
+                    "HealthyThreshold" : "3",
+                    "UnhealthyThreshold" : "5",
+                    "Interval"           : "10",
+                    "Timeout"            : "5"
+                }
+            }
+        },
+        "SPWebSG"        : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Security Group for SharePoint ELB",
+                "VpcId"            : {
+                    "Ref" : "VPC"
+                },
+                "SecurityGroupIngress" : [
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "80",
+                        "ToPort"     : "80",
+                        "CidrIp"     : "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "443",
+                        "ToPort"     : "443",
+                        "CidrIp"     : "0.0.0.0/0"
+                    }
+                ]
+            }
+        },
+        "SPServersSG"    : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Security Group for SharePoint Web Front-Ends and Central Admin",
+                "VpcId"            : {
+                    "Ref" : "VPC"
+                },
+                "SecurityGroupIngress" : [
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "18473",
+                        "ToPort"     : "18473",
+                        "CidrIp"     : "10.0.0.0/16"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "80",
+                        "ToPort"     : "80",
+                        "CidrIp"     : "10.0.0.0/16"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "443",
+                        "ToPort"     : "443",
+                        "CidrIp"     : "10.0.0.0/16"
+                    }
+                ]
+            }
+        },
+        "SPFarmSG"       : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "DependsOn" : "SPServersSG",
+            "Properties" : {
+                "GroupDescription" : "SharePoint Intra-Farm Communication",
+                "VpcId"            : {
+                    "Ref" : "VPC"
+                },
+                "SecurityGroupIngress" : [
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "808",
+                        "ToPort"     : "808",
+                        "SourceSecurityGroupId" : {
+                            "Ref" : "SPServersSG"
+                        }
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "32843",
+                        "ToPort"     : "32846",
+                        "SourceSecurityGroupId" : {
+                            "Ref" : "SPServersSG"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "Outputs"                  : {
+        "ElasticLoadBalancer" : {
+            "Value" : {
+                "Ref" : "SPLoadBalancer"
+            },
+            "Description" : "Address of the Elastic Load Balancer. After configuring your SharePoint Farm connect to your site using this address"
+        }
+    }
+}

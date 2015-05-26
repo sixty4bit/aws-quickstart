@@ -1,0 +1,432 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description"              : "(F003) - This template deploys two Windows Server Failover Clustering (WSFC) and SQL Server 2012 AlwaysOn Availability Group nodes. This template is intended to be installed into an existing VPC that was built using the sample reference architecture titled: \"Implementing Active Directory Domain Services in the AWS Cloud\" **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Parameters"               : {
+        "AdminPassword"  : {
+            "Description" : "Local administrator account password on each server. Must be at least 8 characters containing letters, numbers and symbols",
+            "Type"        : "String",
+            "MinLength"   : "8",
+            "MaxLength"   : "32",
+            "AllowedPattern" : "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
+            "NoEcho"         : "true",
+            "Default"        : "Password123"
+        },
+        "KeyPairName" : {
+            "Description" : "Public/private key pairs allow you to securely connect to your instance after it launches",
+            "Type"        : "AWS::EC2::KeyPair::KeyName"
+        },
+        "DomainMemberSGID"          : {
+            "Description" : "ID of the Domain Member Security Group (e.g., sg-7f16e910)",
+            "Type"        : "AWS::EC2::SecurityGroup::Id"
+        },
+        "VPC"                       : {
+            "Description" : "ID of the VPC (e.g., vpc-0343606e)",
+            "Type"        : "AWS::EC2::VPC::Id"
+        },
+        "PrivateSubnet1Id"          : {
+            "Description" : "ID of the subnet you want to provision the first WSFC node into (e.g., subnet-a0246dcd)",
+            "Type"        : "AWS::EC2::Subnet::Id"
+        },
+        "PrivateSubnet2Id"          : {
+            "Description" : "ID of the subnet you want to provision the second WSFC node into (e.g., subnet-e3246d8e)",
+            "Type"        : "AWS::EC2::Subnet::Id"
+        }
+    },
+    "Mappings"                 : {
+		"AWSWinRegionMap" : {
+            "us-east-1" : {
+                "WSFCNODE1" : "ami-856084ee",
+				"WSFCNODE2" : "ami-9b6084f0"
+            },
+            "us-west-2" : {
+                "WSFCNODE1" : "ami-6fe5d95f",
+				"WSFCNODE2" : "ami-51e5d961"
+            },
+            "us-west-1" : {
+                "WSFCNODE1" : "ami-172cc453",
+				"WSFCNODE2" : "ami-112cc455"
+            },																								
+            "ap-northeast-1" : {
+                "WSFCNODE1" : "ami-3a8d5c3a",
+				"WSFCNODE2" : "ami-3c8d5c3c"
+            },
+            "ap-southeast-1" : {
+                "WSFCNODE1" : "ami-644f7736",
+				"WSFCNODE2" : "ami-6a4f7738"
+            },
+            "ap-southeast-2" : {
+                "WSFCNODE1" : "ami-a1443d9b",
+				"WSFCNODE2" : "ami-a7443d9d"
+            },
+            "eu-central-1" : {
+                "WSFCNODE1" : "ami-608db37d",
+				"WSFCNODE2" : "ami-628db37f"
+            },
+            "eu-west-1" : {
+                "WSFCNODE1" : "ami-a1ddacd6",
+				"WSFCNODE2" : "ami-afddacd8"
+            },
+            "sa-east-1" : {
+                "WSFCNODE1" : "ami-3d850420",
+				"WSFCNODE2" : "ami-3f850422"
+            }
+		}
+    },
+    "Resources"                : {
+        "WSFCNode1"              : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "ImageId" : {
+                    "Fn::FindInMap" : [
+                        "AWSWinRegionMap",
+                        {
+                            "Ref" : "AWS::Region"
+                        },
+						"WSFCNODE1"
+                    ]				
+				},
+                "InstanceType" : "r3.2xlarge",
+                "EbsOptimized" : "true",
+                "NetworkInterfaces" : [
+                    {
+                        "DeleteOnTermination" : "true",
+                        "DeviceIndex"         : 0,
+                        "SubnetId"            : {
+                            "Ref" : "PrivateSubnet1Id"
+                        },
+                        "PrivateIpAddresses"  : [
+                            {
+                                "Primary" : "true",
+                                "PrivateIpAddress" : "10.0.0.100"
+                            },
+                            {
+                                "Primary" : "false",
+                                "PrivateIpAddress" : "10.0.0.101"
+                            },
+                            {
+                                "Primary" : "false",
+                                "PrivateIpAddress" : "10.0.0.102"
+                            }
+                        ],
+                        "GroupSet"            : [
+                            {
+                                "Ref" : "DomainMemberSGID"
+                            },
+                            {
+                                "Ref" : "WSFCSecurityGroup"
+                            },
+                            {
+                                "Ref" : "WSFCClientSecurityGroup"
+                            }
+                        ]
+                    }
+                ],
+                "Tags"              : [
+                    {
+                        "Key" : "Name",
+                        "Value" : "WSFCNODE1"
+                    }
+                ],
+                "KeyName"             : {
+                    "Ref" : "KeyPairName"
+                },
+                "UserData"            : {
+                    "Fn::Base64" : {
+                        "Fn::Join" : [
+                            "",
+                            [
+                                "<powershell>\n",
+                                "([adsi](\"WinNT://$env:COMPUTERNAME/administrator, user\")).psbase.invoke('SetPassword', '",
+                                {
+                                    "Ref" : "AdminPassword"
+                                },
+								"')",
+                                "\n",
+                                "</powershell>\n"
+                            ]
+                        ]
+                    }
+                }
+            }
+        },
+        "WSFCNode2"              : {
+            "Type" : "AWS::EC2::Instance",
+            "DependsOn" : "WSFCNode1",
+            "Properties" : {
+                "ImageId" : {
+                    "Fn::FindInMap" : [
+                        "AWSWinRegionMap",
+                        {
+                            "Ref" : "AWS::Region"
+                        },
+						"WSFCNODE2"
+                    ]				
+				},
+                "InstanceType" :"r3.2xlarge",
+                "EbsOptimized" : "true",
+                "NetworkInterfaces" : [
+                    {
+                        "DeleteOnTermination" : "true",
+                        "DeviceIndex"         : 0,
+                        "SubnetId"            : {
+                            "Ref" : "PrivateSubnet2Id"
+                        },
+                        "PrivateIpAddresses"  : [
+                            {
+                                "Primary" : "true",
+                                "PrivateIpAddress" : "10.0.64.100"
+                            },
+                            {
+                                "Primary" : "false",
+                                "PrivateIpAddress" : "10.0.64.101"
+                            },
+                            {
+                                "Primary" : "false",
+                                "PrivateIpAddress" : "10.0.64.102"
+                            }
+                        ],
+                        "GroupSet"            : [
+                            {
+                                "Ref" : "DomainMemberSGID"
+                            },
+                            {
+                                "Ref" : "WSFCSecurityGroup"
+                            },
+                            {
+                                "Ref" : "WSFCClientSecurityGroup"
+                            }
+                        ]
+                    }
+                ],
+                "Tags"              : [
+                    {
+                        "Key" : "Name",
+                        "Value" : "WSFCNODE2"
+                    }
+                ],
+                "KeyName"             : {
+                    "Ref" : "KeyPairName"
+                },
+                "UserData"            : {
+                    "Fn::Base64" : {
+                        "Fn::Join" : [
+                            "",
+                            [
+                                "<powershell>\n",
+                                "([adsi](\"WinNT://$env:COMPUTERNAME/administrator, user\")).psbase.invoke('SetPassword', '",
+                                {
+                                    "Ref" : "AdminPassword"
+                                },
+								"')",
+                                "\n",
+                                "</powershell>\n"
+                            ]
+                        ]
+                    }
+                }
+            }
+        },
+        "WSFCSecurityGroup"      : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Enable the WSFC and SQL AlwaysOn Availability Group communications",
+                "VpcId"            : {
+                    "Ref" : "VPC"
+                },
+                "SecurityGroupIngress" : [
+                    {
+                        "IpProtocol" : "icmp",
+                        "FromPort"   : "-1",
+                        "ToPort"     : "-1",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "icmp",
+                        "FromPort"   : "-1",
+                        "ToPort"     : "-1",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "135",
+                        "ToPort"     : "135",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "135",
+                        "ToPort"     : "135",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "137",
+                        "ToPort"     : "137",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "137",
+                        "ToPort"     : "137",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "445",
+                        "ToPort"     : "445",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "445",
+                        "ToPort"     : "445",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "1433",
+                        "ToPort"     : "1433",
+                        "CidrIp"     :"10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "1433",
+                        "ToPort"     : "1433",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "3343",
+                        "ToPort"     : "3343",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "3343",
+                        "ToPort"     : "3343",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "5022",
+                        "ToPort"     : "5022",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "5022",
+                        "ToPort"     : "5022",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "5985",
+                        "ToPort"     : "5985",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "5985",
+                        "ToPort"     : "5985",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "49152",
+                        "ToPort"     : "65535",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "49152",
+                        "ToPort"     : "65535",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "udp",
+                        "FromPort"   : "137",
+                        "ToPort"     : "137",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "udp",
+                        "FromPort"   : "137",
+                        "ToPort"     : "137",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "udp",
+                        "FromPort"   : "3343",
+                        "ToPort"     : "3343",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "udp",
+                        "FromPort"   : "3343",
+                        "ToPort"     : "3343",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "udp",
+                        "FromPort"   : "49152",
+                        "ToPort"     : "65535",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "udp",
+                        "FromPort"   : "49152",
+                        "ToPort"     : "65535",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "1433",
+                        "ToPort"     : "1434",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "1433",
+                        "ToPort"     : "1434",
+                        "CidrIp"     : "10.0.64.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "1433",
+                        "ToPort"     : "1434",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "1433",
+                        "ToPort"     : "1434",
+                        "CidrIp"     : "10.0.64.0/19"
+                    }
+                ]
+            }
+        },
+        "WSFCClientSecurityGroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Enable SQL Client Connections from instances inside the VPC",
+                "VpcId"            : {
+                    "Ref" : "VPC"
+                },
+                "SecurityGroupIngress" : [
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "1433",
+                        "ToPort"     : "1433",
+                        "CidrIp"     : "10.0.0.0/19"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "1433",
+                        "ToPort"     : "1433",
+                        "CidrIp"     : "10.0.64.0/19"
+                    }
+                ]
+            }
+        }
+    }
+}
