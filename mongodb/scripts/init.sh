@@ -58,7 +58,7 @@ yum install -y libcgroup
 #################################################################
 NODE_TYPE=`getValue Name`
 IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
-SHARD=s`getValue NodeShardIndex`
+SHARD=`getValue NodeShardIndex`
 NODES=`getValue ClusterReplicaSetCount`
 MICROSHARDS=`getValue ShardsPerNode`
 CONFIGINDEX=`getValue ConfigServerIndex`
